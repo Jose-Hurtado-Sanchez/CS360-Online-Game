@@ -1,2 +1,2 @@
 Project Responsibilities:
-Server part of the client/server system
+- Server part of the client/server system
