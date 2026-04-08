@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build SFML + ENet",
+            "type": "shell",
+            "command": "clang++",
+            "args": [
+                "-std=c++17",
+                "src/server/main_server.cpp",
+                "-o",
+                "game",
+                "-I/opt/homebrew/include",
+                "-L/opt/homebrew/lib",
+                "-lsfml-graphics",
+                "-lsfml-window",
+                "-lsfml-system",
+                "-lenet"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}
