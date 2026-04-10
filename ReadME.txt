@@ -1,5 +1,24 @@
 To build in vscode 
 
+OVERALL NOTES:
+Player Who starts server is p1 and therefor gets id 1 and id 2 goes to p2
+
+
+
+Current push notes:
+
+
+-Used Copilot to autocomplete work in main_server.hpp and player.hpp (few lines at at time) to finish then made edits to better fit goal 
+    -useful in assisting autocomplete in functions onRecieve and sendGameState especially
+-Realized gamestate packet needs to communicate move and attack for both players so added that in the struct
+
+
+TO-DO:
+-Player class apply input function still needs implementation eventually to contain the calls for animation changes 
+-SFML implementation 
+-Client connecting to Server ASAP -- check packets exchange
+
+
 Ensure a working tasks.json and c_cpp_properties.json configuration in .vscode
 
 Once that is done then Cmd Shft B to build (On Mac) Probs going to be Crl Shft B on Windows

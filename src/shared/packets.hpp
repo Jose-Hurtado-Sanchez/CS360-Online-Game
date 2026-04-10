@@ -31,5 +31,9 @@ struct GamestatePacket
    float p2_x; 
    float p1_health;
    float p2_health;
+   MoveType p1_move;
+   MoveType p2_move;
+   ActionType p1_action;
+   ActionType p2_action;
 
 };
