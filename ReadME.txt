@@ -11,6 +11,8 @@ Current push notes:
 -Used Copilot to autocomplete work in main_server.hpp and player.hpp (few lines at at time) to finish then made edits to better fit goal 
     -useful in assisting autocomplete in functions onRecieve and sendGameState especially
 -Realized gamestate packet needs to communicate move and attack for both players so added that in the struct
+-Created animations to be used in the game for different attacks and also defensive positions (AI images was used) 
+-Uploading the client to connect with the server and used copilot to help complete the client part of the server-client system
 
 
 TO-DO:
