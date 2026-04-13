@@ -13,6 +13,7 @@ Current push notes:
 -Realized gamestate packet needs to communicate move and attack for both players so added that in the struct
 -Created animations to be used in the game for different attacks and also defensive positions (AI images was used) 
 -Uploading the client to connect with the server and used copilot to help complete the client part of the server-client system
+-uploading new animations that align with our previous images and did 5 images for attack and 5 for defensive positions
 
 
 TO-DO:
