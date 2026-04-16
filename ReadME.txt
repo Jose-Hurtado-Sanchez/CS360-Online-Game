@@ -1,11 +1,13 @@
 To build in vscode 
 
 BEFORE COMPILING:
-ADD the IP of the person who is running the server
+ADD the IP of the person who is running the server and make sure you are not on WSU wifi 
+Both machines have to be on the same wifi perferably have both players in the same room 
+Have eNet and SFML downloaded on your computer for this program to run
 
 
 OVERALL NOTES:
-Player Who starts server is p1 and therefor gets id 1 and id 2 goes to p2
+Player Who starts server is p1 and therefore gets id 1 and id 2 goes to p2
 
 
 
@@ -22,6 +24,7 @@ Current push notes:
     -Updated the comments on the client files 
 -Used AI to build makefile using prompt "make the make file" along with the name of all the cpp files 
 -Client and Server works to make a connection and the window pops up for both players 
+-Player 1 will be on the left side and Player 2 will be on the right side
 
 TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 
