@@ -1,5 +1,9 @@
 To build in vscode 
 
+BEFORE COMPILING:
+ADD the IP of the person who is running the server
+
+
 OVERALL NOTES:
 Player Who starts server is p1 and therefor gets id 1 and id 2 goes to p2
 

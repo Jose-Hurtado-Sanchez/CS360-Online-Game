@@ -55,7 +55,7 @@
 
     void onRecieve(ENetPeer* peer, ENetPacket* packet)
     {
-        printf("Do something onRecieve with packet");
+        //printf("Do something onRecieve with packet");
 
         PacketHeader * header = (PacketHeader*)packet->data; // gets what type of packet
 
@@ -77,7 +77,7 @@
                 if (currentPlayer) 
                 {
                     currentPlayer->applyInput(*input);
-                    printf("Applied input for Player %u\n", currentPlayer->getId());
+                  //  printf("Applied input for Player %u\n", currentPlayer->getId());
                     
                     // After applying input, broadcast the updated game state
                     sendGameState();

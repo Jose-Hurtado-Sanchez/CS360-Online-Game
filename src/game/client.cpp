@@ -99,7 +99,7 @@ int main()
     ENetPeer* peer;
 
     //set server port
-    enet_address_set_host(&address, "127.0.0.1");
+    enet_address_set_host(&address, "127.0.0.1"); // ADD IP LATER!
     address.port = 7777; // must match server
 
     //connecting with server

@@ -22,7 +22,7 @@ int main()
 
     address.host = ENET_HOST_ANY; 
     address.port = 7777; // picked port 7777 because yt tutorial but needs to be same as CLIENT -- CHECK LATER
-    server = enet_host_create(&address,1,1,0,0); // 1 client can connect, 2 channels one reliable and one unreliable 0 for both bandwith limiatation cause we watn to go as fast as possible
+    server = enet_host_create(&address,2,1,0,0); // 2 client can connect, 2 channels one reliable and one unreliable 0 for both bandwith limiatation cause we watn to go as fast as possible
 
 
     if (server == NULL)
