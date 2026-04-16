@@ -1,17 +1,15 @@
-#include "main_client.hpp"
+#include "client.hpp"
 
 //function to send player input to the server 
-void sendInput(ENetPeer* peer, float dx, float dy, bool attack, bool block)
+void sendInput(ENetPeer* peer, MoveType move, ActionType action)
 {
     //ensure that the connection is valid
     if (!peer) return;
 
     //create and populate the input packet with player input data
     InputPacket input{};
-    input.dx = dx; //movement in the x direction
-    input.dy = dy; //movement in the y direction
-    input.attack = attack; //player is attacking
-    input.block = block; //player is blocking
+    input.move = move;
+    input.action = action;
 
 
     //enet packet with space for the header 
@@ -59,10 +57,11 @@ void handlePacket(ENetPacket* packet, float& p1x, float& p2x, int& p1Health, int
             p2Health = gs->p2_health; //player 2's health
 
             //log the game state
-            std::cout << "GameState received: "
-                      << "P1 x=" << p1x << " hp=" << p1Health
-                      << " | P2 x=" << p2x << " hp=" << p2Health << "\n";
-            break;
+            // log the game state
+            std::cout << "P1 X: " << gs->p1_x
+             << " P2 X: " << gs->p2_x
+             << " P1 Health: " << gs->p1_health
+             << " P2 Health: " << gs->p2_health << "\n";
         }
 
         default:
@@ -74,7 +73,7 @@ void handlePacket(ENetPacket* packet, float& p1x, float& p2x, int& p1Health, int
 
 int main()
 {
-    if (enet_initialize() != 0)
+    if (enet_initialize() != 0)//initialize eNet
     {
         std::cout << "ENet failed to initialize\n";
         return 1;
@@ -82,6 +81,7 @@ int main()
 
     atexit(enet_deinitialize);
 
+    //create client host
     ENetHost* client = enet_host_create(nullptr, 1, 1, 0, 0);
     if (!client)
     {
@@ -93,9 +93,11 @@ int main()
     ENetEvent event;
     ENetPeer* peer;
 
+    //set server port
     enet_address_set_host(&address, "127.0.0.1");
     address.port = 7777; // must match server
 
+    //connecting with server
     peer = enet_host_connect(client, &address, 1, 0);
     if (!peer)
     {
@@ -106,6 +108,7 @@ int main()
 
     std::cout << "Attempting to connect...\n";
 
+    //wait 5 seconds to connect
     if (enet_host_service(client, &event, 5000) > 0 &&
         event.type == ENET_EVENT_TYPE_CONNECT)
     {
@@ -113,31 +116,12 @@ int main()
     }
     else
     {
+        //connection fails
         std::cout << "Connection failed\n";
         enet_peer_reset(peer);
         enet_host_destroy(client);
         return 1;
     }
-
-    sf::RenderWindow window(sf::VideoMode({1000, 600}), "Fighting Game Client");
-    window.setFramerateLimit(60);
-
-    sf::Clock clock;
-
-    sf::RectangleShape player1Shape(sf::Vector2f(80.f, 120.f));
-    sf::RectangleShape player2Shape(sf::Vector2f(80.f, 120.f));
-
-    player1Shape.setPosition({200.f, 350.f});
-    player2Shape.setPosition({700.f, 350.f});
-
-    player1Shape.setFillColor(sf::Color::Blue);
-    player2Shape.setFillColor(sf::Color::Red);
-
-    float p1x = 200.f;
-    float p2x = 700.f;
-    int p1Health = 100;
-    int p2Health = 100;
-
     while (window.isOpen())
     {
         float dt = clock.restart().asSeconds();
@@ -151,33 +135,37 @@ int main()
             }
         }
 
-        float dx = 0.0f;
-        float dy = 0.0f;
-        bool attack = false;
-        bool block = false;
+        //default state
+       MoveType move = MoveType::IDLE;
+        ActionType action = ActionType::NONE;
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-            dx = -1.0f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-            dx = 1.0f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-            dy = -1.0f;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-            dy = 1.0f;
+        //movement input
+       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+        move = MoveType::LEFT;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+        move = MoveType::RIGHT;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
+        move = MoveType::UP;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
+        move = MoveType::DOWN;
 
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
-            attack = true;
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
-            block = true;
+        //action input
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+     action = ActionType::ATTACK;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+        action = ActionType::BLOCK;
 
-        sendInput(peer, dx, dy, attack, block);
+        //send player input to the server
+        sendInput(peer, move, action);
         enet_host_flush(client);
 
         while (enet_host_service(client, &event, 0) > 0)
         {
             switch (event.type)
             {
+                //handle incoming packets from the server
                 case ENET_EVENT_TYPE_RECEIVE:
+                    //update local game state
                     handlePacket(event.packet, p1x, p2x, p1Health, p2Health);
                     enet_packet_destroy(event.packet);
                     break;
@@ -194,17 +182,11 @@ int main()
             }
         }
 
-        player1Shape.setPosition({p1x, 350.f});
-        player2Shape.setPosition({p2x, 350.f});
-
-        window.clear(sf::Color(30, 30, 30));
-        window.draw(player1Shape);
-        window.draw(player2Shape);
-        window.display();
     }
 
     if (peer)
     {
+        //disconnecting from the server
         enet_peer_disconnect(peer, 0);
 
         while (enet_host_service(client, &event, 3000) > 0)
