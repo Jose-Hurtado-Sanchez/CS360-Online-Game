@@ -30,6 +30,8 @@ TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 
 -SFML implementation 
 -Game logic 
+    - Joey is working on Server side input validation, gamestate packets,ensure two players connected 
+    - Marissa working on Client sending input packets 
 -Testing and Debugging
 
 
