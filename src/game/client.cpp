@@ -122,7 +122,10 @@ int main()
         enet_host_destroy(client);
         return 1;
     }
-    while (window.isOpen())
+   
+MoveType move = MoveType::IDLE;
+ActionType action = ActionType::NONE;
+while (window.isOpen())
     {
         float dt = clock.restart().asSeconds();
         (void)dt;
@@ -136,7 +139,7 @@ int main()
         }
 
         //default state
-       MoveType move = MoveType::IDLE;
+       MoveType move = MoveType::NONE;
         ActionType action = ActionType::NONE;
 
         //movement input
@@ -144,16 +147,16 @@ int main()
         move = MoveType::LEFT;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
         move = MoveType::RIGHT;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::W))
-        move = MoveType::UP;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::S))
-        move = MoveType::DOWN;
 
         //action input
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
-     action = ActionType::ATTACK;
+     action = ActionType::LEFT_ATTACK;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+     action = ActionType::RIGHT_ATTACK;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
-        action = ActionType::BLOCK;
+        action = ActionType::LEFT_BLOCK;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+        action = ActionType::RIGHT_BLOCK;
 
         //send player input to the server
         sendInput(peer, move, action);
@@ -205,6 +208,4 @@ int main()
         }
     }
 
-    enet_host_destroy(client);
-    return 0;
-}
+
