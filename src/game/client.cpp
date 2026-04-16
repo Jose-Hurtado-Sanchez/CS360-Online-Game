@@ -123,12 +123,15 @@ int main()
         return 1;
     }
    
-MoveType move = MoveType::IDLE;
+MoveType move = MoveType::NONE;
+
 ActionType action = ActionType::NONE;
+
+sf::Window window(sf::VideoMode({800, 600}), "Fighter Game Client");
+
 while (window.isOpen())
     {
-        float dt = clock.restart().asSeconds();
-        (void)dt;
+
 
         while (const std::optional<sf::Event> ev = window.pollEvent())
         {
@@ -169,7 +172,7 @@ while (window.isOpen())
                 //handle incoming packets from the server
                 case ENET_EVENT_TYPE_RECEIVE:
                     //update local game state
-                    handlePacket(event.packet, p1x, p2x, p1Health, p2Health);
+                    handlePacket(event.packet);
                     enet_packet_destroy(event.packet);
                     break;
 

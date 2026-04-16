@@ -10,6 +10,6 @@
 //function to send player input to the server
 void sendInput(ENetPeer* peer, float dx, float dy, bool attack = false, bool block = false);
 //function to handle the packets received from the server 
-void handlePacket(ENetPacket* packet, float& p1x, float& p2x, int& p1Health, int& p2Health);
+void handlePacket(ENetPacket* packet);
 
 #endif
