@@ -18,7 +18,7 @@ Current push notes:
 -Also had generative ai to help me complete the sendInput and handlePacket functions to make sure that it works with the server
 -Updated the client.cpp and client.hpp to work with the varaiables within the server files 
     -Updated the comments on the client files 
-
+-Used AI to build makefile using prompt "make the make file" along with the name of all the cpp files 
 
 TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 

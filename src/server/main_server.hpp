@@ -83,10 +83,7 @@
                     sendGameState();
                 }
             
-            case PacketType :: GAMESTATE:
-                // Server should not receive gamestate packets, ignore or log error
-                printf("Received unexpected GAMESTATE packet from client\n");
-                break;
+             break;
         }
     }          
 
