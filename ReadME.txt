@@ -10,8 +10,6 @@ Player Who starts server is p1 and therefor gets id 1 and id 2 goes to p2
 
 
 Current push notes:
-
-
 -Used Copilot to autocomplete work in main_server.hpp and player.hpp (few lines at at time) to finish then made edits to better fit goal 
     -useful in assisting autocomplete in functions onRecieve and sendGameState especially
 -Realized gamestate packet needs to communicate move and attack for both players so added that in the struct
@@ -23,11 +21,13 @@ Current push notes:
 -Updated the client.cpp and client.hpp to work with the varaiables within the server files 
     -Updated the comments on the client files 
 -Used AI to build makefile using prompt "make the make file" along with the name of all the cpp files 
+-Client and Server works to make a connection and the window pops up for both players 
 
 TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 
 -SFML implementation 
--Client connecting to Server ASAP -- check packets exchange
+-Game logic 
+-Testing and Debugging
 
 
 Ensure a working tasks.json and c_cpp_properties.json configuration in .vscode
