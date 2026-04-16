@@ -33,11 +33,9 @@ TO-DO:
 -Testing and Debugging
 
 
-Ensure a working tasks.json and c_cpp_properties.json configuration in .vscode
+Ensure a working c_cpp_properties.json configuration in .vscode
 
-Once that is done then Cmd Shft B to build (On Mac) Probs going to be Crl Shft B on Windows
-
-then run ./game -- will become ./server and ./client eventually 
+then run make and then ./server and ./client (make sure that ./server is running first and then ./client once an established connection is made with player2 running ./client) 
 
 
 
