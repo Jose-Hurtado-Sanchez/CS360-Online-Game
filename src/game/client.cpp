@@ -1,5 +1,10 @@
 #include "client.hpp"
 
+static float p1x = 0.0f; // player 1's x position
+static float p2x = 0.0f; // player 2's x position
+static float p1Health = 100.0f; // player 1's health
+static float p2Health = 100.0f; // player 2's health
+
 //function to send player input to the server 
 void sendInput(ENetPeer* peer, MoveType move, ActionType action)
 {
@@ -31,7 +36,7 @@ void sendInput(ENetPeer* peer, MoveType move, ActionType action)
 }
 
 //function to handle packets received from the server
-void handlePacket(ENetPacket* packet, float& p1x, float& p2x, int& p1Health, int& p2Health)
+void handlePacket(ENetPacket* packet)
 {
     //ensure that the packet is valid 
     if (!packet || packet->dataLength < sizeof(PacketHeader)) return;
@@ -211,4 +216,4 @@ while (window.isOpen())
         }
     }
 
-
+}
