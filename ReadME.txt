@@ -14,6 +14,8 @@ Current push notes:
 -Created animations to be used in the game for different attacks and also defensive positions (AI images was used) 
 -Uploading the client to connect with the server and used copilot to help complete the client part of the server-client system
 -uploading new animations that align with our previous images and did 5 images for attack and 5 for defensive positions
+-Used Copilot to autocomplete work in client.hpp and client.cpp (few lines at at time) to finish then made edits to better fit goal 
+    - also had generative ai to help me complete the sendInput and handlePacket functions to make sure that it works with the server
 
 
 TO-DO:
