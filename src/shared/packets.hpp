@@ -1,3 +1,4 @@
+#pragma once
 #include "packetTypes.hpp"
 
 enum class MoveType : uint8_t
