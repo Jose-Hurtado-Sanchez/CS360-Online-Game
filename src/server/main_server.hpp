@@ -21,6 +21,10 @@
         currentGameState.p2_x = player2.getX();
         currentGameState.p1_health = player1.getHealth();
         currentGameState.p2_health = player2.getHealth();
+        currentGameState.p1_move = MoveType::NONE;
+        currentGameState.p2_move = MoveType::NONE;
+        currentGameState.p1_action = player1.getCurrentAction();
+        currentGameState.p2_action = player2.getCurrentAction();
 
         // Create packet
         ENetPacket* packet = enet_packet_create(nullptr, sizeof(PacketHeader) + sizeof(GamestatePacket), ENET_PACKET_FLAG_RELIABLE);
@@ -74,14 +78,14 @@
                     currentPlayer = &player2;
                 }
                 
-                if (currentPlayer) 
-                {
-                    currentPlayer->applyInput(*input);
-                  //  printf("Applied input for Player %u\n", currentPlayer->getId());
-                    
-                    // After applying input, broadcast the updated game state
-                    sendGameState();
-                }
+                
+                player1.applyInput(*input, peer, &player2);
+                player2.applyInput(*input, peer, &player1);
+                //  printf("Applied input for Player %u\n", currentPlayer->getId());
+                
+                // After applying input, broadcast the updated game state
+                sendGameState();
+                
             
              break;
         }

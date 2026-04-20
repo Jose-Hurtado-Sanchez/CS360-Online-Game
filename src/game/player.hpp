@@ -8,6 +8,7 @@ class Player
         float health; 
         uint32_t id; // used to track who is who server host is ALWAYS p1
         ENetPeer* peer; // need this because it is were data will be communicated back and forth from server
+        ActionType currentAction = ActionType::NONE;
 
     public:
         // Getters ----------------------------------------------------------------------
@@ -26,6 +27,10 @@ class Player
         ENetPeer* getPeer()  
         { 
             return peer; 
+        }
+        ActionType getCurrentAction()
+        {
+            return currentAction;
         }
         // Getters ----------------------------------------------------------------------
 
@@ -72,37 +77,69 @@ class Player
             }
         }
 
-        void applyInput(InputPacket input) 
+        void applyInput(InputPacket input, ENetPeer* senderPeer, Player* opponent) 
         {
-            // Update player state based on input
+            bool opponentBlocked = false;
+            if (senderPeer != peer) {
+                return;
+            }
+
+            // Update player state based on movement
             switch (input.move) 
             {
                 case MoveType::LEFT:
-                    x -= 1.0; // Move left
+                    x -= 1.0f; // Move left
                     break;
                 case MoveType::RIGHT:
-                    x += 1.0; // Move right
+                    x += 1.0f; // Move right
                     break;
                 case MoveType::NONE:
-                    //No movement
+                    // No movement
                     break;
             }
+
+            // Keep track of this player's most recent action for the server to broadcast.
+            currentAction = input.action;
 
             switch (input.action) 
             {
                 case ActionType::LEFT_ATTACK:
-                    // TODO: Implement left attack logic
-                    break;
+                    if (opponent)
+                    {
+                        if(input.action == ActionType::LEFT_ATTACK && opponent->getCurrentAction() == ActionType::LEFT_BLOCK) 
+                        {
+                            opponentBlocked = true;
+                        }
+
+                        if (!opponentBlocked)
+                        {
+                            opponent->takeDamage();
+                        }
+                    }
                 case ActionType::RIGHT_ATTACK:
-                    // TODO: Implement right attack logic
+                    if (opponent)
+                    {   
+                        if(input.action == ActionType::RIGHT_ATTACK && opponent->getCurrentAction() == ActionType::RIGHT_BLOCK)
+                        {
+                            opponentBlocked = true;
+                        }
+
+                        if (!opponentBlocked)
+                        {
+                            opponent->takeDamage();
+                        }
+                    }
                     break;
+
+                //other actions does not affect it so just worry about the attacks they already check blocking 
                 case ActionType::LEFT_BLOCK:
-                    // Implement left block logic
                     break;
                 case ActionType::RIGHT_BLOCK:
-                    // Implement right block logic
+                    break;
+                case ActionType::NONE:
                     break;
                 default:
+                    // No action performed
                     break;
             }
         }

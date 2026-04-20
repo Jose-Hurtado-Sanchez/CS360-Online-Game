@@ -25,6 +25,7 @@ Current push notes:
 -Used AI to build makefile using prompt "make the make file" along with the name of all the cpp files 
 -Client and Server works to make a connection and the window pops up for both players 
 -Player 1 will be on the left side and Player 2 will be on the right side
+- Copilot asked to assist with input checking for damage in player.hpp
 
 TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 

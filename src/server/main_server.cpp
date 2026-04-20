@@ -44,7 +44,7 @@ int main()
                     onConnect(event.peer); // does something with the peer that connected 
                     break;
 
-                case ENET_EVENT_TYPE_RECEIVE:
+                case ENET_EVENT_TYPE_RECEIVE: // a input packet was recieved from a client
                     printf("Server Recvied :");
                     onRecieve(event.peer,event.packet); // does something with the packet when recieved 
                     enet_packet_destroy(event.packet); //destroy old unsused packet
