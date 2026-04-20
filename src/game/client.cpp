@@ -5,6 +5,20 @@ static float p2x = 0.0f; // player 2's x position
 static float p1Health = 100.0f; // player 1's health
 static float p2Health = 100.0f; // player 2's health
 
+enum class AnimationState
+{
+    IDLE,
+    WALKING,
+    ATTACKING,
+    BLOCKING
+};
+
+static AnimationState p1State = AnimationState::IDLE; // player 1's animation state
+static AnimationState p2State = AnimationState::IDLE; // player 2's animation state
+
+static float prevP1x = 0.0f; // player 1's previous x position
+static float prevP2x = 0.0f; // player 2's previous x position
+
 //function to send player input to the server 
 void sendInput(ENetPeer* peer, MoveType move, ActionType action)
 {
@@ -67,6 +81,7 @@ void handlePacket(ENetPacket* packet)
              << " P2 X: " << gs->p2_x
              << " P1 Health: " << gs->p1_health
              << " P2 Health: " << gs->p2_health << "\n";
+             break;
         }
 
         default:
@@ -74,6 +89,28 @@ void handlePacket(ENetPacket* packet)
             std::cout << "Unknown packet type received\n";
             break;
     }
+}
+
+void updateAnimation(ActionType action){
+    //player 1 animationstate
+    if(action == ActionType::LEFT_ATTACK || action == ActionType::RIGHT_ATTACK){
+        p1State = AnimationState::ATTACKING;
+    } else if(action == ActionType::LEFT_BLOCK || action == ActionType::RIGHT_BLOCK){
+        p1State = AnimationState::BLOCKING;
+    } else if(p1x != prevP1x){
+        p1State = AnimationState::WALKING;
+    } else {
+        p1State = AnimationState::IDLE;
+    }
+    //player 2 animationstate
+    if(p2x != prevP2x){
+        p2State = AnimationState::WALKING;
+    } else {
+        p2State = AnimationState::IDLE;
+    }
+
+    prevP1x = p1x;
+    prevP2x = p2x;
 }
 
 int main()
@@ -132,30 +169,27 @@ MoveType move = MoveType::NONE;
 
 ActionType action = ActionType::NONE;
 
-sf::RenderWindow window(sf::VideoMode({1024, 768}), "Fighter Game Client");
-window.setFramerateLimit(60);
+sf::RenderWindow window(sf::VideoMode({800, 600}), "Fighter Game Client");
 
-// Load textures for player animations
-sf::Texture p1_base_texture, p1_jab_texture, p1_cross_texture, p1_block_jab_texture;
-if (!p1_base_texture.loadFromFile("assets/p1_base_stance.png")) {
-    std::cerr << "Failed to load player 1 base stance\n";
-}
-if (!p1_jab_texture.loadFromFile("assets/p1_jab.png")) {
-    std::cerr << "Failed to load player 1 jab\n";
-}
-if (!p1_cross_texture.loadFromFile("assets/p1_cross.png")) {
-    std::cerr << "Failed to load player 1 cross\n";
-}
-if (!p1_block_jab_texture.loadFromFile("assets/p1_block_jab.png")) {
-    std::cerr << "Failed to load player 1 block jab\n";
-}
+sf::Texture idleTexture;
+sf::Texture walkTexture;
+sf::Texture attackTexture;
+sf::Texture blockTexture;
 
-sf::Sprite p1_sprite(p1_base_texture);
-p1_sprite.setPosition(100.f, 150.f);
+if(!idleTexture.loadFromFile("") ||
+   !walkTexture.loadFromFile("") ||
+   !attackTexture.loadFromFile("") ||
+   !blockTexture.loadFromFile(""))
+{
+    std::cout << "Failed to load textures\n";
+    return 1;
+}   
 
-sf::Sprite p2_sprite(p1_base_texture);  // placeholder for player 2
-p2_sprite.setPosition(800.f, 150.f);
-p2_sprite.scale(-1.f, 1.f);  // flip horizontally
+sf::Sprite p1Sprite(idleTexture);
+sf::Sprite p2Sprite(idleTexture);
+
+p1Sprite.setPosition({100.f, 400.f});
+p2Sprite.setPosition({500.f, 400.f});
 
 while (window.isOpen())
     {
@@ -178,14 +212,14 @@ while (window.isOpen())
             move = MoveType::RIGHT;
 
         //action input
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
-            action = ActionType::LEFT_ATTACK;
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I))
-            action = ActionType::RIGHT_ATTACK;
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
-            action = ActionType::LEFT_BLOCK;
-        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
-            action = ActionType::RIGHT_BLOCK;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+     action = ActionType::LEFT_ATTACK;
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+     action = ActionType::RIGHT_ATTACK;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+        action = ActionType::LEFT_BLOCK;
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Semicolon))
+        action = ActionType::RIGHT_BLOCK;
 
         //send player input to the server
         sendInput(peer, move, action);
@@ -213,12 +247,49 @@ while (window.isOpen())
                     break;
             }
         }
+        updateAnimation(action);
 
-        // Render the game
-        window.clear(sf::Color(50, 50, 50));  // dark gray background
-        window.draw(p1_sprite);
-        window.draw(p2_sprite);
+    //update player 1 sprite based on animation state
+        switch(p1State){
+            case AnimationState::IDLE:
+                p1Sprite.setTexture(idleTexture);
+                break;
+            case AnimationState::WALKING:
+                p1Sprite.setTexture(walkTexture);
+                break;
+            case AnimationState::ATTACKING:
+                p1Sprite.setTexture(attackTexture);
+                break;
+            case AnimationState::BLOCKING:
+                p1Sprite.setTexture(blockTexture);
+                break;
+        }
+
+          //update player 2 sprite based on animation state
+        switch(p2State){
+            case AnimationState::IDLE:
+                p1Sprite.setTexture(idleTexture);
+                break;
+            case AnimationState::WALKING:
+                p1Sprite.setTexture(walkTexture);
+                break;
+            case AnimationState::ATTACKING:
+                p1Sprite.setTexture(attackTexture);
+                break;
+            case AnimationState::BLOCKING:
+                p1Sprite.setTexture(blockTexture);
+                break;
+        }
+
+        p1Sprite.setPosition({p1x, 400.f});
+        p2Sprite.setPosition({p2x, 400.f}); 
+
+        window.clear();
+        window.draw(p1Sprite);
+        window.draw(p2Sprite);
         window.display();
+
+
     }
 
     if (peer)
