@@ -175,11 +175,13 @@ sf::Texture idleTexture;
 sf::Texture walkTexture;
 sf::Texture attackTexture;
 sf::Texture blockTexture;
+sf::Texture background;;
 
 if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
    !walkTexture.loadFromFile("assets/p1_base_stance.png") ||
    !attackTexture.loadFromFile("assets/p1_jab1.png") ||
-   !blockTexture.loadFromFile("assets/p1_block_jab1.png"))
+   !blockTexture.loadFromFile("assets/p1_block_jab1.png") ||
+   !background.loadFromFile("assets/fightingGameBG.png"))
 {
     std::cout << "Failed to load textures\n";
     return 1;
@@ -187,6 +189,7 @@ if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
 
 sf::Sprite p1Sprite(idleTexture);
 sf::Sprite p2Sprite(idleTexture);
+sf::Sprite bgSprite(background); 
 
 p1Sprite.setPosition({100.f, 400.f});
 p2Sprite.setPosition({500.f, 400.f});
@@ -287,6 +290,7 @@ while (window.isOpen())
         window.clear();
         window.draw(p1Sprite);
         window.draw(p2Sprite);
+        window.draw(bgSprite);
         window.display();
 
 
