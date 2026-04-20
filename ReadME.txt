@@ -25,7 +25,7 @@ Player Who starts server is p1 and therefore gets id 1 and id 2 goes to p2
 -Client and Server works to make a connection and the window pops up for both players 
 -Player 1 will be on the left side and Player 2 will be on the right side
 - Copilot asked to assist with input checking for damage in player.hpp
-
+-AI BG image added
 
 TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 
@@ -37,7 +37,7 @@ TO-DO:
 -Testing and Debugging
 
 
-Ensure a working c_cpp_properties.json configuration in .vscode -- not needed anymore
+Ensure a working c_cpp_properties.json configuration in .vscode 
 
 then run make and then ./server and ./client (make sure that ./server is running first and then ./client once an established connection is made with player2 running ./client) 
 
