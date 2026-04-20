@@ -8,9 +8,13 @@ int main()
     if (enet_initialize() != 0)
     {
         // enet initalization failed
-        std::cout<< "ENET FAILED TO INITALIZE";
+       std::cout<<"ENET server initalization not successful"<<std::endl;
         return 1;
 
+    }
+    else
+    {
+       std::cout<<"ENET server initalization successful"<<std::endl;
     }
 
     // typical server declarations

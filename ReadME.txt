@@ -2,7 +2,7 @@ To build in vscode
 
 BEFORE COMPILING:
 ADD the IP of the person who is running the server and make sure you are not on WSU wifi 
-Both machines have to be on the same wifi perferably have both players in the same room 
+Both machines have to be on the same wifi and perferably have both players in the same room 
 Have eNet and SFML downloaded on your computer for this program to run
 
 
@@ -11,7 +11,6 @@ Player Who starts server is p1 and therefore gets id 1 and id 2 goes to p2
 
 
 
-Current push notes:
 -Used Copilot to autocomplete work in main_server.hpp and player.hpp (few lines at at time) to finish then made edits to better fit goal 
     -useful in assisting autocomplete in functions onRecieve and sendGameState especially
 -Realized gamestate packet needs to communicate move and attack for both players so added that in the struct
@@ -27,16 +26,18 @@ Current push notes:
 -Player 1 will be on the left side and Player 2 will be on the right side
 - Copilot asked to assist with input checking for damage in player.hpp
 
+
 TO-DO:
 -Player class apply input function still needs implementation eventually to contain the calls for animation changes 
 -SFML implementation 
+    -All animations need to be added in client. (current error of failing to load textures)
 -Game logic 
-    - Joey is working on Server side input validation, gamestate packets,ensure two players connected 
+    - Joey is working on Server, gamestate packets
     - Marissa working on Client sending input packets 
 -Testing and Debugging
 
 
-Ensure a working c_cpp_properties.json configuration in .vscode
+Ensure a working c_cpp_properties.json configuration in .vscode -- not needed anymore
 
 then run make and then ./server and ./client (make sure that ./server is running first and then ./client once an established connection is made with player2 running ./client) 
 
