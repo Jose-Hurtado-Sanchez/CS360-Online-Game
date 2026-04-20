@@ -191,10 +191,12 @@ sf::Sprite p1Sprite(idleTexture);
 sf::Sprite p2Sprite(idleTexture);
 sf::Sprite bgSprite(background); 
 
+//scale the background to fit the window
 bgSprite.setPosition({0.f, 0.f});
 sf::Vector2u bgSize = background.getSize();
 sf::Vector2u windowSize = window.getSize();
 
+//make sure that the x and y fit the background window
 bgSprite.setScale(sf::Vector2f(
     static_cast<float>(windowSize.x) / bgSize.x,
     static_cast<float>(windowSize.y) / bgSize.y
