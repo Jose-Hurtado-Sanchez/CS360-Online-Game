@@ -176,10 +176,10 @@ sf::Texture walkTexture;
 sf::Texture attackTexture;
 sf::Texture blockTexture;
 
-if(!idleTexture.loadFromFile("") ||
-   !walkTexture.loadFromFile("") ||
-   !attackTexture.loadFromFile("") ||
-   !blockTexture.loadFromFile(""))
+if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
+   !walkTexture.loadFromFile("assets/p1_base_stance.png") ||
+   !attackTexture.loadFromFile("assets/p1_jab1.png") ||
+   !blockTexture.loadFromFile("assets/p1_block_jab1.png"))
 {
     std::cout << "Failed to load textures\n";
     return 1;
