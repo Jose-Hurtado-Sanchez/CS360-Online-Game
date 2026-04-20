@@ -132,12 +132,33 @@ MoveType move = MoveType::NONE;
 
 ActionType action = ActionType::NONE;
 
-sf::Window window(sf::VideoMode({800, 600}), "Fighter Game Client");
+sf::RenderWindow window(sf::VideoMode({1024, 768}), "Fighter Game Client");
+window.setFramerateLimit(60);
+
+// Load textures for player animations
+sf::Texture p1_base_texture, p1_jab_texture, p1_cross_texture, p1_block_jab_texture;
+if (!p1_base_texture.loadFromFile("assets/p1_base_stance.png")) {
+    std::cerr << "Failed to load player 1 base stance\n";
+}
+if (!p1_jab_texture.loadFromFile("assets/p1_jab.png")) {
+    std::cerr << "Failed to load player 1 jab\n";
+}
+if (!p1_cross_texture.loadFromFile("assets/p1_cross.png")) {
+    std::cerr << "Failed to load player 1 cross\n";
+}
+if (!p1_block_jab_texture.loadFromFile("assets/p1_block_jab.png")) {
+    std::cerr << "Failed to load player 1 block jab\n";
+}
+
+sf::Sprite p1_sprite(p1_base_texture);
+p1_sprite.setPosition(100.f, 150.f);
+
+sf::Sprite p2_sprite(p1_base_texture);  // placeholder for player 2
+p2_sprite.setPosition(800.f, 150.f);
+p2_sprite.scale(-1.f, 1.f);  // flip horizontally
 
 while (window.isOpen())
     {
-
-
         while (const std::optional<sf::Event> ev = window.pollEvent())
         {
             if (ev->is<sf::Event::Closed>())
@@ -147,24 +168,24 @@ while (window.isOpen())
         }
 
         //default state
-       MoveType move = MoveType::NONE;
-        ActionType action = ActionType::NONE;
+        move = MoveType::NONE;
+        action = ActionType::NONE;
 
         //movement input
-       if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
-        move = MoveType::LEFT;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
-        move = MoveType::RIGHT;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+            move = MoveType::LEFT;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+            move = MoveType::RIGHT;
 
         //action input
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
-     action = ActionType::LEFT_ATTACK;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
-     action = ActionType::RIGHT_ATTACK;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
-        action = ActionType::LEFT_BLOCK;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
-        action = ActionType::RIGHT_BLOCK;
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+            action = ActionType::LEFT_ATTACK;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::I))
+            action = ActionType::RIGHT_ATTACK;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+            action = ActionType::LEFT_BLOCK;
+        else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+            action = ActionType::RIGHT_BLOCK;
 
         //send player input to the server
         sendInput(peer, move, action);
@@ -193,6 +214,11 @@ while (window.isOpen())
             }
         }
 
+        // Render the game
+        window.clear(sf::Color(50, 50, 50));  // dark gray background
+        window.draw(p1_sprite);
+        window.draw(p2_sprite);
+        window.display();
     }
 
     if (peer)
