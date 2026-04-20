@@ -5,6 +5,7 @@ static float p2x = 700.0f; // player 2's x position
 static float p1Health = 100.0f; // player 1's health
 static float p2Health = 100.0f; // player 2's health
 
+//enum for player movement types
 enum class AnimationState
 {
     IDLE,
@@ -165,18 +166,23 @@ int main()
         return 1;
     }
    
+   //main game loop
 MoveType move = MoveType::NONE;
 
+//default action state
 ActionType action = ActionType::NONE;
 
+//create the game window
 sf::RenderWindow window(sf::VideoMode({800, 600}), "Fighter Game Client");
 
+//load textures for the players and background
 sf::Texture idleTexture;
 sf::Texture walkTexture;
 sf::Texture attackTexture;
 sf::Texture blockTexture;
 sf::Texture background;;
 
+//check if textures are loaded successfully
 if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
    !walkTexture.loadFromFile("assets/p1_base_stance.png") ||
    !attackTexture.loadFromFile("assets/p1_jab1.png") ||
@@ -207,9 +213,11 @@ bgSprite.setScale(sf::Vector2f(
     static_cast<float>(windowSize.y) / bgSize.y
 ));
 
+//set initial positions for the player sprites
 p1Sprite.setPosition({100.f, 400.f});
 p2Sprite.setPosition({500.f, 400.f});
 
+//main game loop
 while (window.isOpen())
     {
         while (const std::optional<sf::Event> ev = window.pollEvent())
@@ -300,13 +308,20 @@ while (window.isOpen())
                 break;
         }
 
+//update player sprite positions based on the game state
         p1Sprite.setPosition({p1x, 200.f});
         p2Sprite.setPosition({p2x, 200.f}); 
 
+//check if player 2 is connected 
+        static bool player2Connected = false;
+
+//render the game
         window.clear();
         window.draw(bgSprite);
         window.draw(p1Sprite);
+        if (player2Connected){
         window.draw(p2Sprite);
+        }
         window.display();
 
 
