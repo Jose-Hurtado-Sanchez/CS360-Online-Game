@@ -31,7 +31,7 @@ int main()
 
     if (server == NULL)
     {
-        std::cout<< "Sever was not created";
+        std::cout<< "Sever was not created" << std::endl;
         return 1;
     }
 

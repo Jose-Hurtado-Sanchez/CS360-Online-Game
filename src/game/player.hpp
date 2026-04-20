@@ -88,10 +88,10 @@ class Player
             switch (input.move) 
             {
                 case MoveType::LEFT:
-                    x -= 1.0f; // Move left
+                    x -= 20.0f; // Move left
                     break;
                 case MoveType::RIGHT:
-                    x += 1.0f; // Move right
+                    x += 20.0f; // Move right
                     break;
                 case MoveType::NONE:
                     // No movement
@@ -131,7 +131,6 @@ class Player
                     }
                     break;
 
-                //other actions does not affect it so just worry about the attacks they already check blocking 
                 case ActionType::LEFT_BLOCK:
                     break;
                 case ActionType::RIGHT_BLOCK:

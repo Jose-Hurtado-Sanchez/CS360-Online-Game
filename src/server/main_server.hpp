@@ -43,12 +43,12 @@
             player1.setId(nextPlayerId);
             player1.setPeer(peer);
             player1.startGame();  // Initialize health and position
-            std::cout << "Player 1 (host) connected\n" <<std::endl;
+            std::cout << "Player 1 (host) connected" <<std::endl;
         } else if (nextPlayerId == 2) {
             player2.setId(nextPlayerId);
             player2.setPeer(peer);
             player2.startGame();  // Initialize health and position
-            std::cout << "Player 2 connected\n" << std::endl;
+            std::cout << "Player 2 connected" << std::endl;
         } else {
             // Reject additional connections cause only 2 players allowed
             enet_peer_disconnect(peer, 0);
