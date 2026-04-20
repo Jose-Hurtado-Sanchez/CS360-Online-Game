@@ -5,6 +5,20 @@ static float p2x = 0.0f; // player 2's x position
 static float p1Health = 100.0f; // player 1's health
 static float p2Health = 100.0f; // player 2's health
 
+enum class AnimationState
+{
+    IDLE,
+    WALKING,
+    ATTACKING,
+    BLOCKING
+};
+
+static AnimationState p1State = AnimationState::IDLE; // player 1's animation state
+static AnimationState p2State = AnimationState::IDLE; // player 2's animation state
+
+static float prevP1x = 0.0f; // player 1's previous x position
+static float prevP2x = 0.0f; // player 2's previous x position
+
 //function to send player input to the server 
 void sendInput(ENetPeer* peer, MoveType move, ActionType action)
 {
@@ -67,6 +81,7 @@ void handlePacket(ENetPacket* packet)
              << " P2 X: " << gs->p2_x
              << " P1 Health: " << gs->p1_health
              << " P2 Health: " << gs->p2_health << "\n";
+             break;
         }
 
         default:
@@ -74,6 +89,28 @@ void handlePacket(ENetPacket* packet)
             std::cout << "Unknown packet type received\n";
             break;
     }
+}
+
+void updateAnimation(ActionType action){
+    //player 1 animationstate
+    if(action == ActionType::LEFT_ATTACK || action == ActionType::RIGHT_ATTACK){
+        p1State = AnimationState::ATTACKING;
+    } else if(action == ActionType::LEFT_BLOCK || action == ActionType::RIGHT_BLOCK){
+        p1State = AnimationState::BLOCKING;
+    } else if(p1x != prevP1x){
+        p1State = AnimationState::WALKING;
+    } else {
+        p1State = AnimationState::IDLE;
+    }
+    //player 2 animationstate
+    if(p2x != prevP2x){
+        p2State = AnimationState::WALKING;
+    } else {
+        p2State = AnimationState::IDLE;
+    }
+
+    prevP1x = p1x;
+    prevP2x = p2x;
 }
 
 int main()
@@ -132,7 +169,27 @@ MoveType move = MoveType::NONE;
 
 ActionType action = ActionType::NONE;
 
-sf::Window window(sf::VideoMode({800, 600}), "Fighter Game Client");
+sf::RenderWindow window(sf::VideoMode({800, 600}), "Fighter Game Client");
+
+sf::Texture idleTexture;
+sf::Texture walkTexture;
+sf::Texture attackTexture;
+sf::Texture blockTexture;
+
+if(!idleTexture.loadFromFile("") ||
+   !walkTexture.loadFromFile("") ||
+   !attackTexture.loadFromFile("") ||
+   !blockTexture.loadFromFile(""))
+{
+    std::cout << "Failed to load textures\n";
+    return 1;
+}   
+
+sf::Sprite p1Sprite(idleTexture);
+sf::Sprite p2Sprite(idleTexture);
+
+p1Sprite.setPosition({100.f, 400.f});
+p2Sprite.setPosition({500.f, 400.f});
 
 while (window.isOpen())
     {
@@ -159,11 +216,11 @@ while (window.isOpen())
         //action input
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
      action = ActionType::LEFT_ATTACK;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
      action = ActionType::RIGHT_ATTACK;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
         action = ActionType::LEFT_BLOCK;
-    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Semicolon))
         action = ActionType::RIGHT_BLOCK;
 
         //send player input to the server
@@ -192,6 +249,48 @@ while (window.isOpen())
                     break;
             }
         }
+        updateAnimation(action);
+
+    //update player 1 sprite based on animation state
+        switch(p1State){
+            case AnimationState::IDLE:
+                p1Sprite.setTexture(idleTexture);
+                break;
+            case AnimationState::WALKING:
+                p1Sprite.setTexture(walkTexture);
+                break;
+            case AnimationState::ATTACKING:
+                p1Sprite.setTexture(attackTexture);
+                break;
+            case AnimationState::BLOCKING:
+                p1Sprite.setTexture(blockTexture);
+                break;
+        }
+
+          //update player 2 sprite based on animation state
+        switch(p2State){
+            case AnimationState::IDLE:
+                p1Sprite.setTexture(idleTexture);
+                break;
+            case AnimationState::WALKING:
+                p1Sprite.setTexture(walkTexture);
+                break;
+            case AnimationState::ATTACKING:
+                p1Sprite.setTexture(attackTexture);
+                break;
+            case AnimationState::BLOCKING:
+                p1Sprite.setTexture(blockTexture);
+                break;
+        }
+
+        p1Sprite.setPosition({p1x, 400.f});
+        p2Sprite.setPosition({p2x, 400.f}); 
+
+        window.clear();
+        window.draw(p1Sprite);
+        window.draw(p2Sprite);
+        window.display();
+
 
     }
 
