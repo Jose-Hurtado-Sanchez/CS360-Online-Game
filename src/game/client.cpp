@@ -1,7 +1,7 @@
 #include "client.hpp"
 
 static float p1x = 100.0f; // player 1's x position
-static float p2x = 500.0f; // player 2's x position
+static float p2x = 700.0f; // player 2's x position
 static float p1Health = 100.0f; // player 1's health
 static float p2Health = 100.0f; // player 2's health
 
@@ -193,8 +193,8 @@ sf::Sprite p2Sprite(idleTexture);
 sf::Sprite bgSprite(background); 
 
 //scale the player sprites to make them larger
-p1Sprite.setScale({2.f, 2.f});
-p2Sprite.setScale({-2.f, 2.f});
+p1Sprite.setScale({5.f, 5.f});
+p2Sprite.setScale({-5.f, 5.f});
 
 //scale the background to fit the window
 bgSprite.setPosition({0.f, 0.f});
@@ -300,8 +300,8 @@ while (window.isOpen())
                 break;
         }
 
-        p1Sprite.setPosition({p1x, 400.f});
-        p2Sprite.setPosition({p2x, 400.f}); 
+        p1Sprite.setPosition({p1x, 200.f});
+        p2Sprite.setPosition({p2x, 200.f}); 
 
         window.clear();
         window.draw(bgSprite);
