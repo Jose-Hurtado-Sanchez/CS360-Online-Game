@@ -1,7 +1,7 @@
 #include "client.hpp"
 
-static float p1x = 0.0f; // player 1's x position
-static float p2x = 0.0f; // player 2's x position
+static float p1x = 100.0f; // player 1's x position
+static float p2x = 500.0f; // player 2's x position
 static float p1Health = 100.0f; // player 1's health
 static float p2Health = 100.0f; // player 2's health
 
@@ -187,9 +187,14 @@ if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
     return 1;
 }   
 
+//create sprites for the players and background
 sf::Sprite p1Sprite(idleTexture);
 sf::Sprite p2Sprite(idleTexture);
 sf::Sprite bgSprite(background); 
+
+//scale the player sprites to make them larger
+p1Sprite.setScale({2.f, 2.f});
+p2Sprite.setScale({-2.f, 2.f});
 
 //scale the background to fit the window
 bgSprite.setPosition({0.f, 0.f});
