@@ -191,6 +191,15 @@ sf::Sprite p1Sprite(idleTexture);
 sf::Sprite p2Sprite(idleTexture);
 sf::Sprite bgSprite(background); 
 
+bgSprite.setPosition({0.f, 0.f});
+sf::Vector2u bgSize = background.getSize();
+sf::Vector2u windowSize = window.getSize();
+
+bgSprite.setScale(sf::Vector2f(
+    static_cast<float>(windowSize.x) / bgSize.x,
+    static_cast<float>(windowSize.y) / bgSize.y
+));
+
 p1Sprite.setPosition({100.f, 400.f});
 p2Sprite.setPosition({500.f, 400.f});
 
@@ -217,7 +226,7 @@ while (window.isOpen())
         //action input
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
      action = ActionType::LEFT_ATTACK;
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
+    else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
      action = ActionType::RIGHT_ATTACK;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::K))
         action = ActionType::LEFT_BLOCK;
@@ -288,9 +297,9 @@ while (window.isOpen())
         p2Sprite.setPosition({p2x, 400.f}); 
 
         window.clear();
+        window.draw(bgSprite);
         window.draw(p1Sprite);
         window.draw(p2Sprite);
-        window.draw(bgSprite);
         window.display();
 
 
