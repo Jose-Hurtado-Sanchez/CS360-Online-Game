@@ -180,14 +180,17 @@ sf::Texture idleTexture;
 sf::Texture walkTexture;
 sf::Texture attackTexture;
 sf::Texture blockTexture;
-sf::Texture background;;
+sf::Texture background;
+sf::Texture gameOverTexture; //texture for game over screen, will be set when the game ends
+
 
 //check if textures are loaded successfully
 if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
    !walkTexture.loadFromFile("assets/p1_base_stance.png") ||
    !attackTexture.loadFromFile("assets/p1_jab1.png") ||
    !blockTexture.loadFromFile("assets/p1_block_jab1.png") ||
-   !background.loadFromFile("assets/fightingGameBG.png"))
+   !background.loadFromFile("assets/fightingGameBG.png") ||
+   !gameOverTexture.loadFromFile("assets/endGamephoto.png"))
 {
     std::cout << "Failed to load textures\n";
     return 1;
@@ -197,6 +200,7 @@ if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
 sf::Sprite p1Sprite(idleTexture);
 sf::Sprite p2Sprite(idleTexture);
 sf::Sprite bgSprite(background); 
+sf::Sprite gameOverSprite(gameOverTexture); //sprite for game over screen, texture will be set when the game ends
 
 //scale the player sprites to make them larger
 p1Sprite.setScale({5.f, 5.f});
@@ -319,6 +323,10 @@ while (window.isOpen())
         window.draw(bgSprite);
         window.draw(p1Sprite);
         window.draw(p2Sprite);
+        if (p1Health <= 0 || p2Health <= 0) 
+        {
+            window.draw(gameOverSprite);
+        }
         window.display();
 
 
