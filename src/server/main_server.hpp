@@ -8,7 +8,7 @@
     Player player2;
     uint32_t nextPlayerId = 1;
 
-    void sendGameState()
+    void sendGameState(ENetHost* server)
     {
         if (!player1.getPeer() || !player2.getPeer()) 
         {
@@ -50,12 +50,11 @@
         header->type = PacketType::GAMESTATE;
         memcpy(packet->data + sizeof(PacketHeader), &currentGameState, sizeof(GamestatePacket));
 
-        // Send to both players
-        enet_peer_send(player1.getPeer(), 0, packet);
-        enet_peer_send(player2.getPeer(), 0, packet);
+        // Broadcast to all peers
+        enet_host_broadcast(server, 0, packet);
     }
 
-    void onConnect(ENetPeer* peer)
+    void onConnect(ENetHost* server, ENetPeer* peer)
     {
         if (nextPlayerId == 1) {
             player1.setId(nextPlayerId);
@@ -75,7 +74,7 @@
         nextPlayerId++;
     }
 
-    void onRecieve(ENetPeer* peer, ENetPacket* packet)
+    void onRecieve(ENetHost* server, ENetPeer* peer, ENetPacket* packet)
     {
         //printf("Do something onRecieve with packet");
 
@@ -102,7 +101,7 @@
                 //  printf("Applied input for Player %u\n", currentPlayer->getId());
                 
                 // After applying input, broadcast the updated game state
-                sendGameState();
+                sendGameState(server);
                 
             
              break;

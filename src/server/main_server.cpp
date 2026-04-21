@@ -45,12 +45,12 @@ int main()
             {
                 case ENET_EVENT_TYPE_CONNECT:
                     std::cout << "Client Connected:" << std::endl;
-                    onConnect(event.peer); // does something with the peer that connected 
+                    onConnect(server, event.peer); // does something with the peer that connected 
                     break;
 
                 case ENET_EVENT_TYPE_RECEIVE: // a input packet was recieved from a client
                     std::cout << "Server Received :" << std::endl;
-                    onRecieve(event.peer,event.packet); // does something with the packet when recieved 
+                    onRecieve(server, event.peer, event.packet); // does something with the packet when recieved 
                     enet_packet_destroy(event.packet); //destroy old unsused packet
                     break;
 
