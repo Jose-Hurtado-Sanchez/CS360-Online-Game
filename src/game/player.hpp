@@ -80,6 +80,10 @@ class Player
         void applyInput(InputPacket input, ENetPeer* senderPeer, Player* opponent) 
         {
             bool opponentBlocked = false;
+            float opponentX = opponent->getX(); // Get opponent's current x position for attack range calculations
+            float attackRange = 25.0f; // Define attack range
+            float playerX = getX(); // Get this player's current x position
+
             if (senderPeer != peer) {
                 return;
             }
@@ -88,10 +92,10 @@ class Player
             switch (input.move) 
             {
                 case MoveType::LEFT:
-                    x -= 20.0f; // Move left
+                    x -= 2.0f; // Move left
                     break;
                 case MoveType::RIGHT:
-                    x += 20.0f; // Move right
+                    x += 2.0f; // Move right
                     break;
                 case MoveType::NONE:
                     // No movement
@@ -124,7 +128,7 @@ class Player
                             opponentBlocked = true;
                         }
 
-                        if (!opponentBlocked)
+                        if (!opponentBlocked && std::abs(playerX - opponentX) <= attackRange)
                         {
                             opponent->takeDamage();
                         }

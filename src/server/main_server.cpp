@@ -44,23 +44,23 @@ int main()
             switch(event.type) 
             {
                 case ENET_EVENT_TYPE_CONNECT:
-                    printf("Client Connected:");
+                    std::cout << "Client Connected:" << std::endl;
                     onConnect(event.peer); // does something with the peer that connected 
                     break;
 
                 case ENET_EVENT_TYPE_RECEIVE: // a input packet was recieved from a client
-                    printf("Server Recvied :");
+                    std::cout << "Server Received :" << std::endl;
                     onRecieve(event.peer,event.packet); // does something with the packet when recieved 
                     enet_packet_destroy(event.packet); //destroy old unsused packet
                     break;
 
                 case ENET_EVENT_TYPE_DISCONNECT:
-                    printf("Server disconected :");
+                    std::cout << "Server disconected :" << std::endl;
                     onDisconnect(event.peer);
                     break;
                     
                 case ENET_EVENT_TYPE_NONE:
-                    printf("No Event :");
+                    std::cout<<"No Event :"<<std::endl;
                     break;
 
             }
