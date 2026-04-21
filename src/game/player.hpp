@@ -126,17 +126,18 @@ class Player
 
                         if(opponent->getId() == 1)
                         {
-                            distance = opponentX - playerX;
-                            if (!opponentBlocked &&  (distance >= 0) && (distance <= attackRange))
+                            distance = playerX - opponentX;
+                            if (!opponentBlocked && playerX - opponentX >= attackRange && opponentX < playerX-attackRange && playerX -opponentX <= attackRange)
                             {
                                 opponent->takeDamage();
                             }
                         }
                         else if(opponent->getId() == 2)
                         {
-                            distance = playerX - opponentX;
-                            if (!opponentBlocked && (distance >= 0) && (distance <= attackRange))
+                            distance = opponentX - playerX;
+                            if (!opponentBlocked&& opponentX - playerX >= attackRange && playerX < opponentX-attackRange && opponentX - playerX <= attackRange)
                             {
+
                                 opponent->takeDamage();
                             }
                         }
@@ -150,16 +151,17 @@ class Player
                             opponentBlocked = true;
                         }
 
-                        if(opponent->getId() == 1)
+                        if(opponent->getId() == 1) // p2 is attacking p1
                         {
-                            if (!opponentBlocked && opponentX - playerX <= attackRange)
+
+                            if (!opponentBlocked && playerX - opponentX >= attackRange && opponentX < playerX-attackRange && playerX -opponentX <= attackRange)
                             {
                                 opponent->takeDamage();
                             }
                         }
-                        else if(opponent->getId() == 2)
+                        else if(opponent->getId() == 2) // p1 is attacking p2
                         {
-                            if (!opponentBlocked && playerX - opponentX <= attackRange)
+                            if (!opponentBlocked && opponentX - playerX >= attackRange && playerX < opponentX-attackRange && opponentX - playerX <= attackRange)
                             {
                                 opponent->takeDamage();
                             }
