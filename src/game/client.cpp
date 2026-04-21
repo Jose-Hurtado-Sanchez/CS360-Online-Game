@@ -312,16 +312,12 @@ while (window.isOpen())
         p1Sprite.setPosition({p1x, 200.f});
         p2Sprite.setPosition({p2x, 200.f}); 
 
-//check if player 2 is connected 
-        static bool player2Connected = false;
 
 //render the game
         window.clear();
         window.draw(bgSprite);
         window.draw(p1Sprite);
-        if (player2Connected){
         window.draw(p2Sprite);
-        }
         window.display();
 
 
