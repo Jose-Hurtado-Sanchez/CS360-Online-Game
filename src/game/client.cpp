@@ -208,27 +208,7 @@ sf::Vector2u bgSize = background.getSize();
 sf::Vector2u windowSize = window.getSize();
 
 float windowWidth = static_cast<float>(windowSize.x);
-float p1Width, p2Width;
 
-sf::FloatRect p1Bounds = p1Sprite.getGlobalBounds();
-sf::FloatRect p2Bounds = p2Sprite.getGlobalBounds();
-
-
-//ensure that player 1's x position stays within the bounds of the window
-if(p1x < 0){
-    p1x =0;
-}
-if(p1x> windowWidth - p1Width){
-    p1x = windowWidth - p1Width;
-}
-
-//ensure that player 2's x position stays within the bounds of the window
-if(p2x < 0){
-    p2x =0;
-}
-if(p2x> windowWidth - p2Width){
-    p2x = windowWidth - p2Width;
-}
 
 //make sure that the x and y fit the background window
 bgSprite.setScale(sf::Vector2f(
