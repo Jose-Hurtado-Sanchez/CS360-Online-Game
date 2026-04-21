@@ -10,7 +10,7 @@ enum class AnimationState
 {
     IDLE,
     WALKING,
-    Jab,
+    JAB,
     CROSS, 
     BLOCK_JAB, 
     BLOCK_CROSS
@@ -97,7 +97,7 @@ void handlePacket(ENetPacket* packet)
 void updateAnimation(ActionType action){
     //player 1 animationstate
     if(action == ActionType::LEFT_ATTACK){
-        p1State = AnimationState::Jab;
+        p1State = AnimationState::JAB;
     } else if(action == ActionType::LEFT_BLOCK){
         p1State = AnimationState::BLOCK_JAB;
     } else if(action == ActionType::RIGHT_ATTACK){
@@ -218,11 +218,11 @@ if (!jabFrames[0].loadFromFile("assets/p1_jab1.png") ||
     !blockJabFrames[0].loadFromFile("assets/p1_block_jab1.png") ||
     !blockJabFrames[1].loadFromFile("assets/p1_block_jab2.png") ||
     !blockJabFrames[2].loadFromFile("assets/p1_block_jab3.png") ||
-    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png")
+    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png") ||
     !crossFrames[0].loadFromFile("assets/p1_cross1.png") ||
     !crossFrames[1].loadFromFile("assets/p1_cross2.png") ||
     !crossFrames[2].loadFromFile("assets/p1_cross3.png") ||
-    !crossFrames[3].loadFromFile("assets/p1_cross4.png") ||)
+    !crossFrames[3].loadFromFile("assets/p1_cross4.png") )
 {
     std::cout << "Failed to load animation frames\n";
     return 1;
@@ -343,7 +343,7 @@ while (window.isOpen())
             case AnimationState::WALKING:
                 p1Sprite.setTexture(walkTexture);
                 break;
-            case AnimationState::ATTACKING:
+            case AnimationState::JAB:
                 p1AttackCounter++;
                 if (p1AttackCounter >= FRAME_DELAY) {
                     p1AttackCounter = 0;
@@ -355,12 +355,12 @@ while (window.isOpen())
                     }
                 }
                 break;
-            case AnimationState::BLOCKING:
+            case AnimationState::BLOCK_JAB:
                 p1BlockCounter++;
                 if (p1BlockCounter >= FRAME_DELAY) {
                     p1BlockCounter = 0;
                     if (p1BlockFrame < 3) {
-                        p1Sprite.setTexture(blockFrames[p1BlockFrame]);
+                        p1Sprite.setTexture(blockJabFrames[p1BlockFrame]);
                         p1BlockFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
@@ -377,10 +377,10 @@ while (window.isOpen())
             case AnimationState::WALKING:
                 p2Sprite.setTexture(walkTexture);
                 break;
-            case AnimationState::ATTACKING:
+            case AnimationState::JAB:
                 p2Sprite.setTexture(idleTexture); // TODO: Add attack frames for player 2
                 break;
-            case AnimationState::BLOCKING:
+            case AnimationState::BLOCK_JAB:
                 p2Sprite.setTexture(idleTexture); // TODO: Add block frames for player 2
                 break;
         }
