@@ -88,7 +88,7 @@ class Player
         void applyInput(InputPacket input, ENetPeer* senderPeer, Player* opponent) 
         {
             bool opponentBlocked = false;
-            float attackRange = 100.0f; // Define attack range
+            float attackRange = 200.0f; // Define attack range
         
 
             if (senderPeer != peer) {
@@ -123,10 +123,21 @@ class Player
                             opponentBlocked = true;
                         }
 
-                        if (!opponentBlocked && std::abs(playerX - opponentX) <= attackRange)
+                        if(opponent->getId() == 1)
                         {
-                            opponent->takeDamage();
+                            if (!opponentBlocked && opponentX - playerX <= attackRange)
+                            {
+                                opponent->takeDamage();
+                            }
                         }
+                        else if(opponent->getId() == 2)
+                        {
+                            if (!opponentBlocked && playerX - opponentX <= attackRange)
+                            {
+                                opponent->takeDamage();
+                            }
+                        }
+                        
                     }
                 case ActionType::RIGHT_ATTACK:
                     if (opponent)
@@ -136,9 +147,19 @@ class Player
                             opponentBlocked = true;
                         }
 
-                        if (!opponentBlocked && std::abs(playerX - opponentX) <= attackRange)
+                        if(opponent->getId() == 1)
                         {
-                            opponent->takeDamage();
+                            if (!opponentBlocked && opponentX - playerX <= attackRange)
+                            {
+                                opponent->takeDamage();
+                            }
+                        }
+                        else if(opponent->getId() == 2)
+                        {
+                            if (!opponentBlocked && playerX - opponentX <= attackRange)
+                            {
+                                opponent->takeDamage();
+                            }
                         }
                     }
                     break;
