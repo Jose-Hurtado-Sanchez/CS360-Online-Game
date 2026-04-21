@@ -110,7 +110,15 @@ void updateAnimation(ActionType action){
         p1State = AnimationState::IDLE;
     }
     //player 2 animationstate
-    if(p2x != prevP2x){
+    if(action == ActionType::LEFT_ATTACK){
+        p2State = AnimationState::JAB;
+    } else if(action == ActionType::LEFT_BLOCK){
+        p2State = AnimationState::BLOCK_JAB;
+    } else if(action == ActionType::RIGHT_ATTACK){
+        p2State = AnimationState::CROSS;
+    } else if(action == ActionType::RIGHT_BLOCK){
+        p2State = AnimationState::BLOCK_CROSS;
+    } else if(p2x != prevP2x){
         p2State = AnimationState::WALKING;
     } else {
         p2State = AnimationState::IDLE;
@@ -279,6 +287,15 @@ static int p1AttackCounter = 0;
 static int p1BlockCounter = 0;
 static const int FRAME_DELAY = 100; // frames per animation frame
 
+//animation frame tracking
+static int p2JabFrame = 0;
+static int p2BlockJabFrame = 0;
+static int p2BlockCrossFrame = 0;
+static int p2CrossFrame = 0;
+static int p2AttackCounter = 0;
+static int p2BlockCounter = 0;
+
+
 //main game loop
 while (window.isOpen())
     {
@@ -402,19 +419,67 @@ while (window.isOpen())
                 break;
         }
 
-          //update player 2 sprite based on animation state
+        //update player 2 sprite based on animation state
         switch(p2State){
             case AnimationState::IDLE:
                 p2Sprite.setTexture(idleTexture);
+                p2AttackCounter = 0;
+                p2BlockCounter = 0;
+                p2JabFrame = 0;
+                p2CrossFrame = 0;
+                p2BlockJabFrame = 0;
+                p2BlockCrossFrame =0;
                 break;
             case AnimationState::WALKING:
                 p2Sprite.setTexture(walkTexture);
                 break;
             case AnimationState::JAB:
-                p2Sprite.setTexture(idleTexture); // TODO: Add attack frames for player 2
+                p2AttackCounter++;
+                if (p2AttackCounter >= FRAME_DELAY) {
+                    p2AttackCounter = 0;
+                    if (p2JabFrame < 3) {
+                        p2Sprite.setTexture(jabFrames[p2JabFrame],true);
+                        p2JabFrame++;
+                    } else {
+                        p2State = AnimationState::IDLE;
+                    }
+                }
+                break;
+            case AnimationState::CROSS:
+                p2AttackCounter++;
+                if (p2AttackCounter >= FRAME_DELAY) {
+                    p2AttackCounter = 0;
+                    if (p2CrossFrame < 3) {
+                        p2Sprite.setTexture(crossFrames[p2CrossFrame],true);
+                        p2CrossFrame++;
+                    } else {
+                        p2State = AnimationState::IDLE;
+                    }
+                }
                 break;
             case AnimationState::BLOCK_JAB:
-                p2Sprite.setTexture(idleTexture); // TODO: Add block frames for player 2
+                p2BlockCounter++;
+                if (p2BlockCounter >= FRAME_DELAY) {
+                    p2BlockCounter = 0;
+                    if (p2BlockJabFrame < 3) {
+                        p2Sprite.setTexture(blockJabFrames[p2BlockJabFrame],true);
+                        p2BlockJabFrame++;
+                    } else {
+                        p2State = AnimationState::IDLE;
+                    }
+                }
+                break;
+            case AnimationState::BLOCK_CROSS:
+                p2BlockCounter++;
+                if (p2BlockCounter >= FRAME_DELAY) {
+                    p2BlockCounter = 0;
+                    if (p2BlockCrossFrame < 4) {
+                        p2Sprite.setTexture(blockCrossFrames[p2BlockCrossFrame],true);
+                        p2BlockCrossFrame++;
+                    } else {
+                        p2State = AnimationState::IDLE;
+                    }
+                }
                 break;
         }
 
