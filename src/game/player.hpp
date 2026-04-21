@@ -56,7 +56,7 @@ class Player
 
         void takeDamage()
         {
-            health -= .01; 
+            health -= .001; 
             if (health < 0) 
             {
                 health = 0; //if health is going to be negative set it to 0 instead
