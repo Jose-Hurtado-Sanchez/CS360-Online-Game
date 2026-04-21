@@ -92,10 +92,10 @@ class Player
             switch (input.move) 
             {
                 case MoveType::LEFT:
-                    x -= 0.2f; // Move left
+                    x -= 0.1f; // Move left
                     break;
                 case MoveType::RIGHT:
-                    x += 0.2f; // Move right
+                    x += 0.1f; // Move right
                     break;
                 case MoveType::NONE:
                     // No movement
