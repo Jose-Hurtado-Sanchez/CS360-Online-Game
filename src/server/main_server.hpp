@@ -46,7 +46,6 @@
         player1.checkEndGame();
         player2.checkEndGame();
 
-
         // Create packet
         ENetPacket* packet = enet_packet_create(nullptr, sizeof(PacketHeader) + sizeof(GamestatePacket), ENET_PACKET_FLAG_RELIABLE);
         PacketHeader* header = (PacketHeader*)packet->data;
