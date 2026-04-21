@@ -36,18 +36,18 @@ void sendInput(ENetPeer* peer, MoveType move, ActionType action)
     ENetPacket* packet = enet_packet_create(
         nullptr, //no data
         sizeof(PacketHeader) + sizeof(InputPacket), //total size of the packet
-        ENET_PACKET_FLAG_RELIABLE
+        ENET_PACKET_FLAG_RELIABLE // reliable packet to ensure it arrives(lowk might wanna change it to unreliable to make it faster)
     );
 
     //add packet header to the specific packet 
-    PacketHeader* header = reinterpret_cast<PacketHeader*>(packet->data);
-    header->type = PacketType::INPUT;
+    PacketHeader* header = reinterpret_cast<PacketHeader*>(packet->data); // point the header to the start of the packet data
+    header->type = PacketType::INPUT; // set the packet type to input
 
     //copy the input data into the packet
-    std::memcpy(packet->data + sizeof(PacketHeader), &input, sizeof(InputPacket));
+    std::memcpy(packet->data + sizeof(PacketHeader), &input, sizeof(InputPacket)); // copy the input data into the packet right after the header
 
     //send it back to the channel
-    enet_peer_send(peer, 0, packet);
+    enet_peer_send(peer, 0, packet); // send the packet to the server on channel 0
 }
 
 //function to handle packets received from the server
@@ -62,7 +62,7 @@ void handlePacket(ENetPacket* packet)
     //handle the packet 
     switch (header->type)
     {
-        case PacketType::GAMESTATE:
+        case PacketType::GAMESTATE: // THIS SHOULD NEVER BE SENT BY CLIENT 
         {
             if (packet->dataLength < sizeof(PacketHeader) + sizeof(GamestatePacket))
                 return;
@@ -239,7 +239,7 @@ while (window.isOpen())
         else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
             move = MoveType::RIGHT;
 
-        //action input
+    //action input not working due to animations needed to be added and bandwith issues (4/20/26)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::J))
      action = ActionType::LEFT_ATTACK;
     else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::L))
