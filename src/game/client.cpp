@@ -218,11 +218,16 @@ if (!jabFrames[0].loadFromFile("assets/p1_jab1.png") ||
     !blockJabFrames[0].loadFromFile("assets/p1_block_jab1.png") ||
     !blockJabFrames[1].loadFromFile("assets/p1_block_jab2.png") ||
     !blockJabFrames[2].loadFromFile("assets/p1_block_jab3.png") ||
-    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png") ||
+    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png")
     !crossFrames[0].loadFromFile("assets/p1_cross1.png") ||
     !crossFrames[1].loadFromFile("assets/p1_cross2.png") ||
     !crossFrames[2].loadFromFile("assets/p1_cross3.png") ||
-    !crossFrames[3].loadFromFile("assets/p1_cross4.png") )
+    !crossFrames[3].loadFromFile("assets/p1_cross4.png") ||
+    !blockCrossFrames[0].loadFromFile("assets/p1_block_cross1.png") ||
+    !blockCrossFrames[1].loadFromFile("assets/p1_block_cross2.png") ||
+    !blockCrossFrames[2].loadFromFile("assets/p1_block_cross3.png") ||
+    !blockCrossFrames[3].loadFromFile("assets/p1_block_cross4.png") ||
+    !blockCrossFrames[4].loadFromFile("assets/p1_block_cross5.png"))
 {
     std::cout << "Failed to load animation frames\n";
     return 1;
@@ -355,12 +360,36 @@ while (window.isOpen())
                     }
                 }
                 break;
+            case AnimationState::CROSS:
+                p1AttackCounter++;
+                if (p1AttackCounter >= FRAME_DELAY) {
+                    p1AttackCounter = 0;
+                    if (p1CrossFrame < 3) {
+                        p1Sprite.setTexture(crossFrames[p1CrossFrame]);
+                        p1CrossFrame++;
+                    } else {
+                        p1State = AnimationState::IDLE;
+                    }
+                }
+                break;
             case AnimationState::BLOCK_JAB:
                 p1BlockCounter++;
                 if (p1BlockCounter >= FRAME_DELAY) {
                     p1BlockCounter = 0;
                     if (p1BlockFrame < 3) {
                         p1Sprite.setTexture(blockJabFrames[p1BlockFrame]);
+                        p1BlockFrame++;
+                    } else {
+                        p1State = AnimationState::IDLE;
+                    }
+                }
+                break;
+            case AnimationState::BLOCK_CROSS:
+                p1BlockCounter++;
+                if (p1BlockCounter >= FRAME_DELAY) {
+                    p1BlockCounter = 0;
+                    if (p1BlockFrame < 3) {
+                        p1Sprite.setTexture(blockCrossFrames[p1BlockFrame]);
                         p1BlockFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
