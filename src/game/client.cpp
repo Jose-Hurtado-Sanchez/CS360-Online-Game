@@ -10,8 +10,10 @@ enum class AnimationState
 {
     IDLE,
     WALKING,
-    ATTACKING,
-    BLOCKING
+    Jab,
+    CROSS, 
+    BLOCK_JAB, 
+    BLOCK_CROSS
 };
 
 static AnimationState p1State = AnimationState::IDLE; // player 1's animation state
@@ -94,10 +96,14 @@ void handlePacket(ENetPacket* packet)
 
 void updateAnimation(ActionType action){
     //player 1 animationstate
-    if(action == ActionType::LEFT_ATTACK || action == ActionType::RIGHT_ATTACK){
-        p1State = AnimationState::ATTACKING;
-    } else if(action == ActionType::LEFT_BLOCK || action == ActionType::RIGHT_BLOCK){
-        p1State = AnimationState::BLOCKING;
+    if(action == ActionType::LEFT_ATTACK){
+        p1State = AnimationState::Jab;
+    } else if(action == ActionType::LEFT_BLOCK){
+        p1State = AnimationState::BLOCK_JAB;
+    } else if(action == ActionType::RIGHT_ATTACK){
+        p1State = AnimationState::CROSS;
+    } else if(action == ActionType::RIGHT_BLOCK){
+        p1State = AnimationState::BLOCK_CROSS;
     } else if(p1x != prevP1x){
         p1State = AnimationState::WALKING;
     } else {
@@ -183,7 +189,9 @@ sf::Texture gameOverTexture; //texture for game over screen, will be set when th
 
 //load animation frames
 std::vector<sf::Texture> jabFrames(4);
-std::vector<sf::Texture> blockFrames(4);
+std::vector<sf::Texture> crossFrames(4);
+std::vector<sf::Texture> blockJabFrames(4);
+std::vector<sf::Texture> blockCrossFrames(5);
 
 //check if textures are loaded successfully
 if(!idleTexture.loadFromFile("assets/p1_base_stance.png")) {
@@ -207,10 +215,14 @@ if (!jabFrames[0].loadFromFile("assets/p1_jab1.png") ||
     !jabFrames[1].loadFromFile("assets/p1_jab2.png") ||
     !jabFrames[2].loadFromFile("assets/p1_jab3.png") ||
     !jabFrames[3].loadFromFile("assets/p1_jab4.png") ||
-    !blockFrames[0].loadFromFile("assets/p1_block_jab1.png") ||
-    !blockFrames[1].loadFromFile("assets/p1_block_jab2.png") ||
-    !blockFrames[2].loadFromFile("assets/p1_block_jab3.png") ||
-    !blockFrames[3].loadFromFile("assets/p1_block_jab4.png"))
+    !blockJabFrames[0].loadFromFile("assets/p1_block_jab1.png") ||
+    !blockJabFrames[1].loadFromFile("assets/p1_block_jab2.png") ||
+    !blockJabFrames[2].loadFromFile("assets/p1_block_jab3.png") ||
+    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png")
+    !crossFrames[0].loadFromFile("assets/p1_cross1.png") ||
+    !crossFrames[1].loadFromFile("assets/p1_cross2.png") ||
+    !crossFrames[2].loadFromFile("assets/p1_cross3.png") ||
+    !crossFrames[3].loadFromFile("assets/p1_cross4.png") ||)
 {
     std::cout << "Failed to load animation frames\n";
     return 1;
