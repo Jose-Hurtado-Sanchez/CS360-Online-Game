@@ -178,21 +178,43 @@ window.setKeyRepeatEnabled(false);
 //load textures for the players and background
 sf::Texture idleTexture;
 sf::Texture walkTexture;
-sf::Texture attackTexture;
-sf::Texture blockTexture;
 sf::Texture background;
 sf::Texture gameOverTexture; //texture for game over screen, will be set when the game ends
 
+//load animation frames
+std::vector<sf::Texture> jabFrames(3);
+std::vector<sf::Texture> blockFrames(3);
 
 //check if textures are loaded successfully
-if(!idleTexture.loadFromFile("assets/p1_base_stance.png") ||
-   !walkTexture.loadFromFile("assets/p1_base_stance.png") ||
-   !attackTexture.loadFromFile("assets/p1_jab1.png") ||
-   !blockTexture.loadFromFile("assets/p1_block_jab1.png") ||
-   !background.loadFromFile("assets/fightingGameBG.png") ||
-   !gameOverTexture.loadFromFile("assets/endGamephoto.png"))
+if(!idleTexture.loadFromFile("assets/p1_base_stance.png")) {
+    std::cout << "Failed to load idle texture: assets/p1_base_stance.png\n";
+    return 1;
+}
+if(!walkTexture.loadFromFile("assets/p1_base_stance.png")) {
+    std::cout << "Failed to load walk texture: assets/p1_base_stance.png\n";
+    return 1;
+}
+if(!background.loadFromFile("assets/fightingGameBG.png")) {
+    std::cout << "Failed to load background texture: assets/fightingGameBG.png\n";
+    return 1;
+}
+if(!gameOverTexture.loadFromFile("assets/endGamephoto.png")) {
+    std::cout << "Warning: Failed to load game over texture: assets/endGamephoto.png (optional)\n";
+}
+
+//load animation frames
+if (!jabFrames[0].loadFromFile("assets/p1_jab.png") ||
+    !jabFrames[1].loadFromFile("assets/p1_jab1.png") ||
+    !jabFrames[2].loadFromFile("assets/p1_jab2.png") ||
+    !jabFrames[3].loadFromFile("assets/p1_jab3.png") ||
+    !jabFrames[4].loadFromFile("assets/p1_jab4.png") ||
+    !blockFrames[0].loadFromFile("assets/p1_block_jab.png") ||
+    !blockFrames[1].loadFromFile("assets/p1_block_jab1.png") ||
+    !blockFrames[2].loadFromFile("assets/p1_block_jab2.png") ||
+    !blockFrames[3].loadFromFile("assets/p1_block_jab3.png") ||
+    !blockFrames[4].loadFromFile("assets/p1_block_jab4.png"))
 {
-    std::cout << "Failed to load textures\n";
+    std::cout << "Failed to load animation frames\n";
     return 1;
 }   
 
@@ -232,6 +254,13 @@ gameOverSprite.setScale(sf::Vector2f(
 //set initial positions for the player sprites
 p1Sprite.setPosition({100.f, 400.f});
 p2Sprite.setPosition({500.f, 400.f});
+
+//animation frame tracking
+static int p1JabFrame = 0;
+static int p1BlockFrame = 0;
+static int p1AttackCounter = 0;
+static int p1BlockCounter = 0;
+static const int FRAME_DELAY = 10; // frames per animation frame
 
 //main game loop
 while (window.isOpen())
@@ -296,31 +325,53 @@ while (window.isOpen())
         switch(p1State){
             case AnimationState::IDLE:
                 p1Sprite.setTexture(idleTexture);
+                p1AttackCounter = 0;
+                p1BlockCounter = 0;
+                p1JabFrame = 0;
+                p1BlockFrame = 0;
                 break;
             case AnimationState::WALKING:
                 p1Sprite.setTexture(walkTexture);
                 break;
             case AnimationState::ATTACKING:
-                p1Sprite.setTexture(attackTexture);
+                p1AttackCounter++;
+                if (p1AttackCounter >= FRAME_DELAY) {
+                    p1AttackCounter = 0;
+                    if (p1JabFrame < 3) {
+                        p1Sprite.setTexture(jabFrames[p1JabFrame]);
+                        p1JabFrame++;
+                    } else {
+                        p1State = AnimationState::IDLE;
+                    }
+                }
                 break;
             case AnimationState::BLOCKING:
-                p1Sprite.setTexture(blockTexture);
+                p1BlockCounter++;
+                if (p1BlockCounter >= FRAME_DELAY) {
+                    p1BlockCounter = 0;
+                    if (p1BlockFrame < 3) {
+                        p1Sprite.setTexture(blockFrames[p1BlockFrame]);
+                        p1BlockFrame++;
+                    } else {
+                        p1State = AnimationState::IDLE;
+                    }
+                }
                 break;
         }
 
           //update player 2 sprite based on animation state
         switch(p2State){
             case AnimationState::IDLE:
-                p1Sprite.setTexture(idleTexture);
+                p2Sprite.setTexture(idleTexture);
                 break;
             case AnimationState::WALKING:
-                p1Sprite.setTexture(walkTexture);
+                p2Sprite.setTexture(walkTexture);
                 break;
             case AnimationState::ATTACKING:
-                p1Sprite.setTexture(attackTexture);
+                p2Sprite.setTexture(idleTexture); // TODO: Add attack frames for player 2
                 break;
             case AnimationState::BLOCKING:
-                p1Sprite.setTexture(blockTexture);
+                p2Sprite.setTexture(idleTexture); // TODO: Add block frames for player 2
                 break;
         }
 
