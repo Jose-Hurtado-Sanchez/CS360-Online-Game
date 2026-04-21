@@ -345,6 +345,7 @@ while (window.isOpen())
                 p1AttackCounter = 0;
                 p1BlockCounter = 0;
                 p1JabFrame = 0;
+                p1CrossFrame = 0;
                 p1BlockJabFrame = 0;
                 p1BlockCrossFrame =0;
                 break;
@@ -356,7 +357,7 @@ while (window.isOpen())
                 if (p1AttackCounter >= FRAME_DELAY) {
                     p1AttackCounter = 0;
                     if (p1JabFrame < 3) {
-                        p1Sprite.setTexture(jabFrames[p1JabFrame]);
+                        p1Sprite.setTexture(jabFrames[p1JabFrame],true);
                         p1JabFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
@@ -368,7 +369,7 @@ while (window.isOpen())
                 if (p1AttackCounter >= FRAME_DELAY) {
                     p1AttackCounter = 0;
                     if (p1CrossFrame < 3) {
-                        p1Sprite.setTexture(crossFrames[p1CrossFrame]);
+                        p1Sprite.setTexture(crossFrames[p1CrossFrame],true);
                         p1CrossFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
@@ -380,7 +381,7 @@ while (window.isOpen())
                 if (p1BlockCounter >= FRAME_DELAY) {
                     p1BlockCounter = 0;
                     if (p1BlockJabFrame < 3) {
-                        p1Sprite.setTexture(blockJabFrames[p1BlockJabFrame]);
+                        p1Sprite.setTexture(blockJabFrames[p1BlockJabFrame],true);
                         p1BlockJabFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
@@ -392,7 +393,7 @@ while (window.isOpen())
                 if (p1BlockCounter >= FRAME_DELAY) {
                     p1BlockCounter = 0;
                     if (p1BlockCrossFrame < 4) {
-                        p1Sprite.setTexture(blockCrossFrames[p1BlockCrossFrame]);
+                        p1Sprite.setTexture(blockCrossFrames[p1BlockCrossFrame],true);
                         p1BlockCrossFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
