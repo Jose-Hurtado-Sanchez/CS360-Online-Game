@@ -182,8 +182,8 @@ sf::Texture background;
 sf::Texture gameOverTexture; //texture for game over screen, will be set when the game ends
 
 //load animation frames
-std::vector<sf::Texture> jabFrames(3);
-std::vector<sf::Texture> blockFrames(3);
+std::vector<sf::Texture> jabFrames(4);
+std::vector<sf::Texture> blockFrames(4);
 
 //check if textures are loaded successfully
 if(!idleTexture.loadFromFile("assets/p1_base_stance.png")) {
@@ -203,16 +203,14 @@ if(!gameOverTexture.loadFromFile("assets/endGamephoto.png")) {
 }
 
 //load animation frames
-if (!jabFrames[0].loadFromFile("assets/p1_jab.png") ||
-    !jabFrames[1].loadFromFile("assets/p1_jab1.png") ||
-    !jabFrames[2].loadFromFile("assets/p1_jab2.png") ||
-    !jabFrames[3].loadFromFile("assets/p1_jab3.png") ||
-    !jabFrames[4].loadFromFile("assets/p1_jab4.png") ||
-    !blockFrames[0].loadFromFile("assets/p1_block_jab.png") ||
-    !blockFrames[1].loadFromFile("assets/p1_block_jab1.png") ||
-    !blockFrames[2].loadFromFile("assets/p1_block_jab2.png") ||
-    !blockFrames[3].loadFromFile("assets/p1_block_jab3.png") ||
-    !blockFrames[4].loadFromFile("assets/p1_block_jab4.png"))
+if (!jabFrames[0].loadFromFile("assets/p1_jab1.png") ||
+    !jabFrames[1].loadFromFile("assets/p1_jab2.png") ||
+    !jabFrames[2].loadFromFile("assets/p1_jab3.png") ||
+    !jabFrames[3].loadFromFile("assets/p1_jab4.png") ||
+    !blockFrames[0].loadFromFile("assets/p1_block_jab1.png") ||
+    !blockFrames[1].loadFromFile("assets/p1_block_jab2.png") ||
+    !blockFrames[2].loadFromFile("assets/p1_block_jab3.png") ||
+    !blockFrames[3].loadFromFile("assets/p1_block_jab4.png"))
 {
     std::cout << "Failed to load animation frames\n";
     return 1;
@@ -260,7 +258,7 @@ static int p1JabFrame = 0;
 static int p1BlockFrame = 0;
 static int p1AttackCounter = 0;
 static int p1BlockCounter = 0;
-static const int FRAME_DELAY = 10; // frames per animation frame
+static const int FRAME_DELAY = 100; // frames per animation frame
 
 //main game loop
 while (window.isOpen())
