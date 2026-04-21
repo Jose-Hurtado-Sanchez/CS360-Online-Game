@@ -28,17 +28,11 @@ Player Who starts server is p1 and therefore gets id 1 and id 2 goes to p2
 -AI BG image added
 - Used Copilot to assist in refractoring the code to change it from a peer to peer send function to a broadcast function in server
 
-TO-DO:
--Player class apply input function still needs implementation eventually to contain the calls for animation changes 
--SFML implementation 
-    -All animations need to be added in client. (current error of failing to load textures)
--Game logic 
-    - Joey is working on Server, gamestate packets
-    - Marissa working on Client sending input packets 
--Testing and Debugging
-
-
-Ensure a working c_cpp_properties.json configuration in .vscode 
+Final push notes: 
+-Game works with decent hit boxes
+-Few quality of life features could be worked later
+-Slowing animation down
+-preventing keys being held down forever 
 
 then run make and then ./server and ./client (make sure that ./server is running first and then ./client once an established connection is made with player2 running ./client) 
 
