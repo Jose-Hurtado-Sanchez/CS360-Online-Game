@@ -88,9 +88,8 @@ class Player
         void applyInput(InputPacket input, ENetPeer* senderPeer, Player* opponent) 
         {
             bool opponentBlocked = false;
-            float opponentX = opponent->getX(); // Get opponent's current x position for attack range calculations
             float attackRange = 100.0f; // Define attack range
-            float playerX = getX(); // Get this player's current x position
+        
 
             if (senderPeer != peer) {
                 return;
@@ -112,7 +111,8 @@ class Player
 
             // Keep track of this player's most recent action for the server to broadcast.
             currentAction = input.action;
-
+            float opponentX = opponent->getX(); // Get opponent's current x position for attack range calculations
+            float playerX = getX(); // Get this player's current x position
             switch (input.action) 
             {
                 case ActionType::LEFT_ATTACK:
