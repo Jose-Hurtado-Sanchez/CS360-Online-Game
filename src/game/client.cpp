@@ -223,6 +223,12 @@ bgSprite.setScale(sf::Vector2f(
     static_cast<float>(windowSize.y) / bgSize.y
 ));
 
+//make sure that the x and y fit the endgame photo to the window
+gameOverSprite.setScale(sf::Vector2f(
+    static_cast<float>(windowSize.x) / gameOverSize.x,
+    static_cast<float>(windowSize.y) / gameOverSize.y
+)); 
+
 //set initial positions for the player sprites
 p1Sprite.setPosition({100.f, 400.f});
 p2Sprite.setPosition({500.f, 400.f});
