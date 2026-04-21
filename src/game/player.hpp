@@ -77,6 +77,14 @@ class Player
             }
         }
 
+        void checkEndGame() 
+        {
+            if(health <= 0) 
+            {
+                std::cout << "Player " << id << " has been defeated!\n";
+            }
+        }
+
         void applyInput(InputPacket input, ENetPeer* senderPeer, Player* opponent) 
         {
             bool opponentBlocked = false;

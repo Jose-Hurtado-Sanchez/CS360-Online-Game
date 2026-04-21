@@ -43,6 +43,9 @@
         currentGameState.p2_move = MoveType::NONE;
         currentGameState.p1_action = player1.getCurrentAction();
         currentGameState.p2_action = player2.getCurrentAction();
+        player1.checkEndGame();
+        player2.checkEndGame();
+
 
         // Create packet
         ENetPacket* packet = enet_packet_create(nullptr, sizeof(PacketHeader) + sizeof(GamestatePacket), ENET_PACKET_FLAG_RELIABLE);
