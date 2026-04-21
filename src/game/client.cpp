@@ -52,6 +52,40 @@ void sendInput(ENetPeer* peer, MoveType move, ActionType action)
     enet_peer_send(peer, 0, packet); // send the packet to the server on channel 0
 }
 
+void updateAnimation(ActionType p1Action, ActionType p2Action){
+    //player 1 animationstate
+    if(p1Action == ActionType::LEFT_ATTACK){
+        p1State = AnimationState::JAB;
+    } else if(p1Action == ActionType::LEFT_BLOCK){
+        p1State = AnimationState::BLOCK_JAB;
+    } else if(p1Action == ActionType::RIGHT_ATTACK){
+        p1State = AnimationState::CROSS;
+    } else if(p1Action == ActionType::RIGHT_BLOCK){
+        p1State = AnimationState::BLOCK_CROSS;
+    } else if(p1x != prevP1x){
+        p1State = AnimationState::WALKING;
+    } else {
+        p1State = AnimationState::IDLE;
+    }
+    //player 2 animationstate
+    if(p2Action == ActionType::LEFT_ATTACK){
+        p2State = AnimationState::JAB;
+    } else if(p2Action == ActionType::LEFT_BLOCK){
+        p2State = AnimationState::BLOCK_JAB;
+    } else if(p2Action == ActionType::RIGHT_ATTACK){
+        p2State = AnimationState::CROSS;
+    } else if(p2Action == ActionType::RIGHT_BLOCK){
+        p2State = AnimationState::BLOCK_CROSS;
+    } else if(p2x != prevP2x){
+        p2State = AnimationState::WALKING;
+    } else {
+        p2State = AnimationState::IDLE;
+    }
+
+    prevP1x = p1x;
+    prevP2x = p2x;
+}
+
 //function to handle packets received from the server
 void handlePacket(ENetPacket* packet)
 {
@@ -77,7 +111,7 @@ void handlePacket(ENetPacket* packet)
             p2x = gs->p2_x; //player 2's x position
             p1Health = gs->p1_health; //player 1's health
             p2Health = gs->p2_health; //player 2's health
-
+            updateAnimation(gs->p1_action, gs->p2_action); //update the animation states based on the actions in the gamestate packet
             //log the game state
             // log the game state
             std::cout << "P1 X: " << gs->p1_x
@@ -94,39 +128,7 @@ void handlePacket(ENetPacket* packet)
     }
 }
 
-void updateAnimation(ActionType action){
-    //player 1 animationstate
-    if(action == ActionType::LEFT_ATTACK){
-        p1State = AnimationState::JAB;
-    } else if(action == ActionType::LEFT_BLOCK){
-        p1State = AnimationState::BLOCK_JAB;
-    } else if(action == ActionType::RIGHT_ATTACK){
-        p1State = AnimationState::CROSS;
-    } else if(action == ActionType::RIGHT_BLOCK){
-        p1State = AnimationState::BLOCK_CROSS;
-    } else if(p1x != prevP1x){
-        p1State = AnimationState::WALKING;
-    } else {
-        p1State = AnimationState::IDLE;
-    }
-    //player 2 animationstate
-    if(action == ActionType::LEFT_ATTACK){
-        p2State = AnimationState::JAB;
-    } else if(action == ActionType::LEFT_BLOCK){
-        p2State = AnimationState::BLOCK_JAB;
-    } else if(action == ActionType::RIGHT_ATTACK){
-        p2State = AnimationState::CROSS;
-    } else if(action == ActionType::RIGHT_BLOCK){
-        p2State = AnimationState::BLOCK_CROSS;
-    } else if(p2x != prevP2x){
-        p2State = AnimationState::WALKING;
-    } else {
-        p2State = AnimationState::IDLE;
-    }
 
-    prevP1x = p1x;
-    prevP2x = p2x;
-}
 
 int main()
 {
@@ -353,7 +355,6 @@ while (window.isOpen())
                     break;
             }
         }
-        updateAnimation(action);
 
     //update player 1 sprite based on animation state
         switch(p1State){
