@@ -174,7 +174,7 @@ ActionType action = ActionType::NONE;
 
 //create the game window
 sf::RenderWindow window(sf::VideoMode({800, 600}), "Fighter Game Client");
-
+window.setKeyRepeatEnabled(false);
 //load textures for the players and background
 sf::Texture idleTexture;
 sf::Texture walkTexture;
