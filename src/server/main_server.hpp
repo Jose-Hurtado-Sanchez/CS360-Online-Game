@@ -18,7 +18,23 @@
         currentGameState.p1_id = player1.getId();
         currentGameState.p2_id = player2.getId();
         currentGameState.p1_x = player1.getX();
-        currentGameState.p2_x = player2.getX();
+        if(currentGameState.p1_x > 800)
+        {
+            currentGameState.p1_x = 800;
+        }
+        else if(currentGameState.p1_x < 0)
+        {
+            currentGameState.p1_x = 200;
+        }
+         currentGameState.p2_x = player2.getX();
+         if(currentGameState.p2_x > 800)
+        {
+            currentGameState.p2_x = 800;
+        }
+        else if(currentGameState.p2_x < 200)
+        {
+            currentGameState.p2_x = 200;
+        }
         currentGameState.p1_health = player1.getHealth();
         currentGameState.p2_health = player2.getHealth();
         currentGameState.p1_move = MoveType::NONE;

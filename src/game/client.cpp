@@ -208,8 +208,6 @@ sf::Vector2u bgSize = background.getSize();
 sf::Vector2u windowSize = window.getSize();
 
 float windowWidth = static_cast<float>(windowSize.x);
-
-
 //make sure that the x and y fit the background window
 bgSprite.setScale(sf::Vector2f(
     static_cast<float>(windowSize.x) / bgSize.x,

@@ -73,7 +73,7 @@ class Player
                 x = 100.0;
             } else {
                 //Non-host player starts on the right
-                x = 300.0;
+                x = 700.0;
             }
         }
 
