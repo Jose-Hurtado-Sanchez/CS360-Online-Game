@@ -211,6 +211,11 @@ bgSprite.setPosition({0.f, 0.f});
 sf::Vector2u bgSize = background.getSize();
 sf::Vector2u windowSize = window.getSize();
 
+//sclae the endPhoto to fit the window
+gameOverSprite.setPosition({0.f, 0.f});
+sf::Vector2u gameOverSize = gameOverTexture.getSize();  
+sf::Vector2u gameOverWindowSize = window.getSize();
+
 float windowWidth = static_cast<float>(windowSize.x);
 //make sure that the x and y fit the background window
 bgSprite.setScale(sf::Vector2f(
