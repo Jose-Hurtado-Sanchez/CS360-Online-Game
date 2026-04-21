@@ -88,7 +88,7 @@ class Player
         void applyInput(InputPacket input, ENetPeer* senderPeer, Player* opponent) 
         {
             bool opponentBlocked = false;
-            float attackRange = 200.0f; // Define attack range
+            float attackRange = 100.0; // Define attack range
         
 
             if (senderPeer != peer) {
@@ -113,6 +113,7 @@ class Player
             currentAction = input.action;
             float opponentX = opponent->getX(); // Get opponent's current x position for attack range calculations
             float playerX = getX(); // Get this player's current x position
+            float distance = 0;
             switch (input.action) 
             {
                 case ActionType::LEFT_ATTACK:
@@ -125,14 +126,16 @@ class Player
 
                         if(opponent->getId() == 1)
                         {
-                            if (!opponentBlocked && opponentX - playerX <= attackRange)
+                            distance = opponentX - playerX;
+                            if (!opponentBlocked &&  (distance >= 0) && (distance <= attackRange))
                             {
                                 opponent->takeDamage();
                             }
                         }
                         else if(opponent->getId() == 2)
                         {
-                            if (!opponentBlocked && playerX - opponentX <= attackRange)
+                            distance = playerX - opponentX;
+                            if (!opponentBlocked && (distance >= 0) && (distance <= attackRange))
                             {
                                 opponent->takeDamage();
                             }
