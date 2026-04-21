@@ -218,7 +218,7 @@ if (!jabFrames[0].loadFromFile("assets/p1_jab1.png") ||
     !blockJabFrames[0].loadFromFile("assets/p1_block_jab1.png") ||
     !blockJabFrames[1].loadFromFile("assets/p1_block_jab2.png") ||
     !blockJabFrames[2].loadFromFile("assets/p1_block_jab3.png") ||
-    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png")
+    !blockJabFrames[3].loadFromFile("assets/p1_block_jab4.png") || 
     !crossFrames[0].loadFromFile("assets/p1_cross1.png") ||
     !crossFrames[1].loadFromFile("assets/p1_cross2.png") ||
     !crossFrames[2].loadFromFile("assets/p1_cross3.png") ||
@@ -272,7 +272,9 @@ p2Sprite.setPosition({500.f, 400.f});
 
 //animation frame tracking
 static int p1JabFrame = 0;
-static int p1BlockFrame = 0;
+static int p1BlockJabFrame = 0;
+static int p1BlockCrossFrame = 0;
+static int p1CrossFrame = 0;
 static int p1AttackCounter = 0;
 static int p1BlockCounter = 0;
 static const int FRAME_DELAY = 100; // frames per animation frame
@@ -343,7 +345,8 @@ while (window.isOpen())
                 p1AttackCounter = 0;
                 p1BlockCounter = 0;
                 p1JabFrame = 0;
-                p1BlockFrame = 0;
+                p1BlockJabFrame = 0;
+                p1BlockCrossFrame =0;
                 break;
             case AnimationState::WALKING:
                 p1Sprite.setTexture(walkTexture);
@@ -376,9 +379,9 @@ while (window.isOpen())
                 p1BlockCounter++;
                 if (p1BlockCounter >= FRAME_DELAY) {
                     p1BlockCounter = 0;
-                    if (p1BlockFrame < 3) {
-                        p1Sprite.setTexture(blockJabFrames[p1BlockFrame]);
-                        p1BlockFrame++;
+                    if (p1BlockJabFrame < 3) {
+                        p1Sprite.setTexture(blockJabFrames[p1BlockJabFrame]);
+                        p1BlockJabFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
                     }
@@ -388,9 +391,9 @@ while (window.isOpen())
                 p1BlockCounter++;
                 if (p1BlockCounter >= FRAME_DELAY) {
                     p1BlockCounter = 0;
-                    if (p1BlockFrame < 3) {
-                        p1Sprite.setTexture(blockCrossFrames[p1BlockFrame]);
-                        p1BlockFrame++;
+                    if (p1BlockCrossFrame < 4) {
+                        p1Sprite.setTexture(blockCrossFrames[p1BlockCrossFrame]);
+                        p1BlockCrossFrame++;
                     } else {
                         p1State = AnimationState::IDLE;
                     }
