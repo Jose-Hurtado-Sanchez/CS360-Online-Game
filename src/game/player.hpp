@@ -89,7 +89,7 @@ class Player
         {
             bool opponentBlocked = false;
             float opponentX = opponent->getX(); // Get opponent's current x position for attack range calculations
-            float attackRange = 25.0f; // Define attack range
+            float attackRange = 100.0f; // Define attack range
             float playerX = getX(); // Get this player's current x position
 
             if (senderPeer != peer) {
@@ -123,7 +123,7 @@ class Player
                             opponentBlocked = true;
                         }
 
-                        if (!opponentBlocked)
+                        if (!opponentBlocked && std::abs(playerX - opponentX) <= attackRange)
                         {
                             opponent->takeDamage();
                         }
