@@ -18,16 +18,18 @@
         currentGameState.p1_id = player1.getId();
         currentGameState.p2_id = player2.getId();
         currentGameState.p1_x = player1.getX();
-        if(currentGameState.p1_x > 800)
+        if(currentGameState.p1_x > 600)
         {
-            currentGameState.p1_x = 800;
+            currentGameState.p1_x = 600;
         }
-        else if(currentGameState.p1_x < 0)
+        else if(currentGameState.p1_x < 100)
         {
-            currentGameState.p1_x = 200;
+            currentGameState.p1_x = 100;
         }
+
          currentGameState.p2_x = player2.getX();
-         if(currentGameState.p2_x > 800)
+
+        if(currentGameState.p2_x > 800)
         {
             currentGameState.p2_x = 800;
         }
