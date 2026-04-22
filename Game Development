@@ -1,10 +1,10 @@
-To build in vscode 
+Build Instructions
 
 BEFORE COMPILING:
-ADD the IP of the person who is running the server and make sure you are not on WSU wifi 
-Both machines have to be on the same wifi and perferably have both players in the same room 
-Have eNet and SFML downloaded on your computer for this program to run
-
+- ADD the IP of the person who is running the server and make sure you are not on WSU wifi 
+- Both machines have to be on the same wifi and perferably have both players in the same room 
+- Have eNet and SFML downloaded on your computer for this program to run
+- May not work with windows system if you do not have the correct packages but runs with two mac systems in vs code that has the correct packages downloaded
 
 OVERALL NOTES:
 Player Who starts server is p1 and therefore gets id 1 and id 2 goes to p2
