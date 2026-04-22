@@ -1,40 +1,14 @@
-To build in vscode 
-
-BEFORE COMPILING:
-ADD the IP of the person who is running the server and make sure you are not on WSU wifi 
-Both machines have to be on the same wifi and perferably have both players in the same room 
-Have eNet and SFML downloaded on your computer for this program to run
-
-
-OVERALL NOTES:
-Player Who starts server is p1 and therefore gets id 1 and id 2 goes to p2
 
 
 
--Used Copilot to autocomplete work in main_server.hpp and player.hpp (few lines at at time) to finish then made edits to better fit goal 
-    -useful in assisting autocomplete in functions onRecieve and sendGameState especially
--Realized gamestate packet needs to communicate move and attack for both players so added that in the struct
--Created animations to be used in the game for different attacks and also defensive positions (AI images was used) 
--Uploading the client to connect with the server and used copilot to help complete the client part of the server-client system
--uploading new animations that align with our previous images and did 5 images for attack and 5 for defensive positions
--Used Copilot to autocomplete work in client.hpp and client.cpp (few lines at at time) to finish then made edits to better fit goal 
--Also had generative ai to help me complete the sendInput and handlePacket functions to make sure that it works with the server
--Updated the client.cpp and client.hpp to work with the varaiables within the server files 
-    -Updated the comments on the client files 
--Used AI to build makefile using prompt "make the make file" along with the name of all the cpp files 
--Client and Server works to make a connection and the window pops up for both players 
--Player 1 will be on the left side and Player 2 will be on the right side
-- Copilot asked to assist with input checking for damage in player.hpp
--AI BG image added
-- Used Copilot to assist in refractoring the code to change it from a peer to peer send function to a broadcast function in server
-
-Final push notes: 
--Game works with decent hit boxes
--Few quality of life features could be worked later
--Slowing animation down
--preventing keys being held down forever 
-
-then run make and then ./server and ./client (make sure that ./server is running first and then ./client once an established connection is made with player2 running ./client) 
 
 
 
+
+
+
+
+project overview and goals
+description of the four (or more) themes used
+design decisions and trade-offs used
+challenges encountered and lessons learned
